@@ -1,33 +1,29 @@
 <script setup>
 import { motion } from 'motion-v'
+import fotoSaid from './assets/foto-said.jpg'
 
 const navLinks = [
   { label: 'Tentang', href: '#tentang' },
-  { label: 'Tech Stack', href: '#tech' },
+  { label: 'Keahlian', href: '#keahlian' },
   { label: 'Kontak', href: '#kontak' },
 ]
 
-const techGroups = [
-  {
-    title: 'Backend',
-    icon: '⚙️',
-    items: ['PHP', 'Laravel', 'Next.js'],
-  },
-  {
-    title: 'Frontend',
-    icon: '🎨',
-    items: ['HTML5', 'CSS3', 'JavaScript', 'Vue.js', 'TypeScript'],
-  },
-  {
-    title: 'Database',
-    icon: '🗄️',
-    items: ['MySQL', 'SQL Server'],
-  },
-  {
-    title: 'Tools & Lainnya',
-    icon: '🧰',
-    items: ['Git', 'GitHub', 'Composer', 'npm', 'Nginx', 'Linux Ubuntu', 'Windows'],
-  },
+// Daftar keahlian bernomor, mengikuti pola daftar klien 01-17 di blunar
+const keahlian = [
+  'PHP',
+  'Laravel',
+  'Next.js',
+  'HTML5 & CSS3',
+  'JavaScript',
+  'Vue.js',
+  'TypeScript',
+  'MySQL',
+  'SQL Server',
+  'Git & GitHub',
+  'Composer & npm',
+  'Nginx',
+  'Linux Ubuntu',
+  'Windows',
 ]
 
 const kontakItems = [
@@ -35,13 +31,11 @@ const kontakItems = [
     label: 'Email',
     value: 'msaidabdillah18@gmail.com',
     href: 'mailto:msaidabdillah18@gmail.com',
-    icon: '✉️',
   },
   {
     label: 'WhatsApp',
-    value: '0857-5264-6247',
+    value: '+62 857-5264-6247',
     href: 'https://wa.me/6285752646247',
-    icon: '💬',
   },
 ]
 </script>
@@ -51,12 +45,12 @@ const kontakItems = [
     <!-- ===== NAVBAR ===== -->
     <motion.header
       class="navbar"
-      :initial="{ y: -60, opacity: 0 }"
+      :initial="{ y: -50, opacity: 0 }"
       :animate="{ y: 0, opacity: 1 }"
-      :transition="{ duration: 0.6, ease: 'easeOut' }"
+      :transition="{ duration: 0.5, ease: 'easeOut' }"
     >
       <div class="container navbar-inner">
-        <a href="#" class="logo font-display">Said<span class="text-gradient">.</span>dev</a>
+        <a href="#" class="logo display">Said Abdillah</a>
         <nav class="nav-links">
           <a v-for="link in navLinks" :key="link.href" :href="link.href">{{ link.label }}</a>
         </nav>
@@ -65,59 +59,63 @@ const kontakItems = [
 
     <!-- ===== HERO ===== -->
     <section class="hero">
-      <div class="hero-glow hero-glow-1"></div>
-      <div class="hero-glow hero-glow-2"></div>
-      <div class="container hero-inner">
-        <motion.p
-          class="hero-badge"
-          :initial="{ opacity: 0, y: 16 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.5, delay: 0.1 }"
-        >
-          ✦ Tersedia untuk proyek baru
-        </motion.p>
+      <div class="container hero-grid">
+        <div class="hero-left">
+          <motion.span
+            class="badge-dot"
+            :initial="{ opacity: 0, y: 12 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.5 }"
+          >
+            Terbuka untuk peluang
+          </motion.span>
 
-        <motion.h1
-          class="hero-title font-display"
-          :initial="{ opacity: 0, y: 28 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.7, delay: 0.2 }"
-        >
-          Halo, saya <span class="text-gradient">Said Abdillah</span><br />
-          Web Developer
-        </motion.h1>
+          <motion.h1
+            class="hero-name display"
+            :initial="{ opacity: 0, y: 30 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.7, delay: 0.1 }"
+          >
+            Said<br />Abdillah
+          </motion.h1>
 
-        <motion.p
-          class="hero-sub"
-          :initial="{ opacity: 0, y: 24 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.7, delay: 0.35 }"
-        >
-          Membangun website & aplikasi web yang modern, responsif, dan fungsional —
-          dari Laravel di backend hingga Vue.js di frontend.
-        </motion.p>
+          <motion.p
+            class="hero-tagline display"
+            :initial="{ opacity: 0, y: 24 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.7, delay: 0.25 }"
+          >
+            Web · Laravel · Vue.js
+          </motion.p>
+
+          <motion.p
+            class="hero-desc"
+            :initial="{ opacity: 0, y: 20 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.7, delay: 0.4 }"
+          >
+            Web developer yang membangun website &amp; aplikasi web modern,
+            responsif, dan fungsional — dari backend Laravel hingga frontend Vue.
+          </motion.p>
+
+          <motion.div
+            class="hero-actions"
+            :initial="{ opacity: 0, y: 16 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.6, delay: 0.55 }"
+          >
+            <a href="mailto:msaidabdillah18@gmail.com" class="btn-dark">Hubungi Saya</a>
+            <a href="https://wa.me/6285752646247" class="btn-line">WhatsApp</a>
+          </motion.div>
+        </div>
 
         <motion.div
-          class="hero-actions"
-          :initial="{ opacity: 0, y: 20 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.7, delay: 0.5 }"
+          class="hero-photo-wrap"
+          :initial="{ opacity: 0, scale: 0.94 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :transition="{ duration: 0.8, delay: 0.3 }"
         >
-          <a href="#kontak" class="btn btn-primary">Hubungi Saya</a>
-          <a href="#tentang" class="btn btn-ghost">Tentang Saya ↓</a>
-        </motion.div>
-
-        <motion.div
-          class="hero-marquee"
-          :initial="{ opacity: 0 }"
-          :animate="{ opacity: 1 }"
-          :transition="{ duration: 1, delay: 0.7 }"
-        >
-          <div class="marquee-track">
-            <span v-for="n in 2" :key="n" class="marquee-group font-display">
-              Laravel · Vue.js · TypeScript · Next.js · MySQL · Nginx · Linux ·
-            </span>
-          </div>
+          <img :src="fotoSaid" alt="Foto Said Abdillah" class="hero-photo" />
         </motion.div>
       </div>
     </section>
@@ -126,92 +124,114 @@ const kontakItems = [
     <section id="tentang" class="section">
       <div class="container">
         <motion.div
-          :initial="{ opacity: 0, y: 32 }"
+          :initial="{ opacity: 0, y: 30 }"
           :whileInView="{ opacity: 1, y: 0 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6 }"
         >
-          <span class="section-label">Tentang Saya</span>
-          <h2 class="section-title">Membangun solusi digital<br />yang <span class="text-gradient">benar-benar terpakai</span></h2>
+          <span class="route-label">/tentang</span>
+          <h2 class="big-statement display">
+            Saya membangun produk digital yang modern, responsif,
+            dan benar-benar menjawab kebutuhan.
+          </h2>
           <p class="section-text">
-            Saya adalah Web Developer yang berfokus pada pengembangan website dan aplikasi web
-            yang modern, responsif, dan fungsional. Saya tertarik pada teknologi Laravel, Vue.js,
-            dan pengembangan solusi digital yang mampu menjawab kebutuhan nyata. Dengan semangat
-            belajar dan eksplorasi teknologi, saya terus mengembangkan kemampuan untuk menciptakan
-            produk digital yang efektif, berkualitas, dan memberikan pengalaman pengguna yang baik.
+            Saya tertarik pada teknologi Laravel, Vue.js, dan pengembangan solusi digital.
+            Dengan semangat belajar dan eksplorasi teknologi, saya terus mengembangkan
+            kemampuan untuk menciptakan produk digital yang efektif, berkualitas,
+            dan memberikan pengalaman pengguna yang baik.
           </p>
+        </motion.div>
+
+        <!-- statistik besar seperti blunar -->
+        <motion.div
+          class="stats"
+          :initial="{ opacity: 0, y: 24 }"
+          :whileInView="{ opacity: 1, y: 0 }"
+          :inViewOptions="{ once: true, amount: 0.4 }"
+          :transition="{ duration: 0.6, delay: 0.15 }"
+        >
+          <div class="stat">
+            <span class="stat-number display">14+</span>
+            <span class="stat-label">Teknologi<br />dikuasai</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number display">Full-Stack</span>
+            <span class="stat-label">Backend &amp;<br />Frontend</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number display">100%</span>
+            <span class="stat-label">Semangat<br />belajar</span>
+          </div>
         </motion.div>
       </div>
     </section>
 
-    <!-- ===== TECH STACK ===== -->
-    <section id="tech" class="section section-alt">
+    <hr class="divider" />
+
+    <!-- ===== KEAHLIAN ===== -->
+    <section id="keahlian" class="section">
       <div class="container">
         <motion.div
-          :initial="{ opacity: 0, y: 32 }"
+          :initial="{ opacity: 0, y: 30 }"
           :whileInView="{ opacity: 1, y: 0 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6 }"
         >
-          <span class="section-label">Tech Stack</span>
-          <h2 class="section-title">Perangkat yang saya <span class="text-gradient">kuasai</span></h2>
+          <span class="route-label">/keahlian</span>
+          <h2 class="big-statement display">Tech stack yang saya gunakan.</h2>
         </motion.div>
 
-        <div class="tech-grid">
+        <div class="skill-list">
           <motion.div
-            v-for="(group, i) in techGroups"
-            :key="group.title"
-            class="card tech-card"
-            :initial="{ opacity: 0, y: 40 }"
+            v-for="(skill, i) in keahlian"
+            :key="skill"
+            class="skill-row"
+            :initial="{ opacity: 0, y: 16 }"
             :whileInView="{ opacity: 1, y: 0 }"
             :inViewOptions="{ once: true, amount: 0.3 }"
-            :transition="{ duration: 0.55, delay: i * 0.12 }"
+            :transition="{ duration: 0.4, delay: Math.min(i * 0.05, 0.5) }"
           >
-            <div class="tech-icon">{{ group.icon }}</div>
-            <h3>{{ group.title }}</h3>
-            <div class="tech-tags">
-              <span v-for="item in group.items" :key="item" class="tag">{{ item }}</span>
-            </div>
+            <span class="skill-number display">{{ String(i + 1).padStart(2, '0') }}</span>
+            <span class="skill-name display">{{ skill }}</span>
+            <span class="skill-arrow">→</span>
           </motion.div>
         </div>
       </div>
     </section>
 
+    <hr class="divider" />
+
     <!-- ===== KONTAK ===== -->
     <section id="kontak" class="section">
       <div class="container">
         <motion.div
-          :initial="{ opacity: 0, y: 32 }"
+          :initial="{ opacity: 0, y: 30 }"
           :whileInView="{ opacity: 1, y: 0 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6 }"
-          class="kontak-head"
         >
-          <span class="section-label">Kontak</span>
-          <h2 class="section-title">Mari <span class="text-gradient">bekerja sama</span></h2>
+          <span class="route-label">/kontak</span>
+          <h2 class="big-statement display">Mari bekerja sama.</h2>
           <p class="section-text">
             Punya proyek, ide, atau sekadar ingin berdiskusi soal teknologi?
-            Jangan ragu untuk menghubungi saya lewat salah satu kanal di bawah.
+            Hubungi saya lewat kanal di bawah.
           </p>
         </motion.div>
 
-        <div class="kontak-grid">
+        <div class="kontak-list">
           <motion.a
             v-for="(item, i) in kontakItems"
             :key="item.label"
             :href="item.href"
-            class="card kontak-card"
-            :initial="{ opacity: 0, y: 40 }"
+            class="kontak-row"
+            :initial="{ opacity: 0, y: 16 }"
             :whileInView="{ opacity: 1, y: 0 }"
-            :inViewOptions="{ once: true, amount: 0.3 }"
-            :transition="{ duration: 0.55, delay: i * 0.12 }"
+            :inViewOptions="{ once: true, amount: 0.5 }"
+            :transition="{ duration: 0.4, delay: i * 0.1 }"
           >
-            <span class="kontak-icon">{{ item.icon }}</span>
-            <div>
-              <div class="kontak-label">{{ item.label }}</div>
-              <div class="kontak-value">{{ item.value }}</div>
-            </div>
-            <span class="kontak-arrow">→</span>
+            <span class="kontak-label">{{ item.label }}</span>
+            <span class="kontak-value display">{{ item.value }}</span>
+            <span class="skill-arrow">→</span>
           </motion.a>
         </div>
       </div>
@@ -237,14 +257,12 @@ const kontakItems = [
 
 /* ===== NAVBAR ===== */
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 50;
-  background: rgba(5, 6, 10, 0.75);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
 }
 
 .navbar-inner {
@@ -255,220 +273,254 @@ const kontakItems = [
 }
 
 .logo {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .nav-links {
   display: flex;
-  gap: 26px;
+  gap: 24px;
 }
 
 .nav-links a {
-  color: var(--muted);
+  color: var(--gray);
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--text);
+  color: var(--ink);
 }
 
 /* ===== HERO ===== */
 .hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
+  padding: 90px 0 70px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
   align-items: center;
-  overflow: hidden;
-  padding-top: 64px;
 }
 
-.hero-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.45;
-  pointer-events: none;
+.hero-name {
+  font-size: clamp(3.2rem, 9vw, 7rem);
+  line-height: 0.95;
+  font-weight: 700;
+  margin: 26px 0 18px;
 }
 
-.hero-glow-1 {
-  width: 480px;
-  height: 480px;
-  background: #33418f;
-  top: -120px;
-  right: -80px;
-}
-
-.hero-glow-2 {
-  width: 380px;
-  height: 380px;
-  background: #3d2a6e;
-  bottom: -100px;
-  left: -100px;
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-badge {
-  display: inline-block;
-  padding: 7px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--muted);
-  font-size: 0.82rem;
+.hero-tagline {
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  font-weight: 500;
+  color: var(--gray);
   margin-bottom: 22px;
 }
 
-.hero-title {
-  font-size: clamp(2.4rem, 6.5vw, 4.4rem);
-  line-height: 1.08;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.hero-sub {
-  color: var(--muted);
-  font-size: 1.08rem;
-  max-width: 560px;
-  margin-bottom: 32px;
+.hero-desc {
+  color: var(--gray);
+  max-width: 480px;
+  font-size: 1.02rem;
+  margin-bottom: 30px;
 }
 
 .hero-actions {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 72px;
 }
 
-/* marquee */
-.hero-marquee {
-  overflow: hidden;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 0;
-  white-space: nowrap;
-}
-
-.marquee-track {
+.btn-dark {
   display: inline-flex;
-  animation: marquee 24s linear infinite;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.marquee-group {
-  font-size: 1.05rem;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  padding-right: 10px;
+.btn-dark:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-line:hover {
+  transform: translateY(-2px);
+  background: var(--soft);
+}
+
+/* foto */
+.hero-photo-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-photo {
+  width: min(340px, 100%);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 1px solid var(--line);
 }
 
 /* ===== SECTIONS ===== */
-.section-alt {
-  background: var(--bg-soft);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.section {
+  padding: 90px 0;
 }
 
-/* ===== TECH ===== */
-.tech-grid {
+.big-statement {
+  font-size: clamp(1.7rem, 4.2vw, 3rem);
+  line-height: 1.15;
+  font-weight: 600;
+  max-width: 900px;
+  margin-bottom: 22px;
+}
+
+.section-text {
+  color: var(--gray);
+  max-width: 620px;
+  font-size: 1.02rem;
+}
+
+/* statistik */
+.stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-  margin-top: 36px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
 }
 
-.tech-icon {
-  font-size: 1.7rem;
-  margin-bottom: 12px;
+.stat {
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
 }
 
-.tech-card h3 {
-  font-size: 1.08rem;
-  margin-bottom: 14px;
+.stat-number {
+  display: block;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
 }
 
-.tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.stat-label {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-top: 6px;
+  display: inline-block;
 }
 
-.tag {
-  padding: 5px 13px;
-  border-radius: 999px;
-  background: rgba(108, 140, 255, 0.1);
-  border: 1px solid rgba(108, 140, 255, 0.22);
-  color: #b9c7ff;
-  font-size: 0.82rem;
-  font-weight: 500;
+/* ===== DAFTAR KEAHLIAN ===== */
+.skill-list {
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
 }
 
-/* ===== KONTAK ===== */
-.kontak-head {
-  margin-bottom: 36px;
-}
-
-.kontak-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
-}
-
-.kontak-card {
+.skill-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  text-decoration: none;
-  color: var(--text);
+  gap: 22px;
+  padding: 18px 6px;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.2s ease, padding-left 0.2s ease;
 }
 
-.kontak-card:hover {
-  transform: translateY(-3px);
+.skill-row:hover {
+  background: var(--soft);
+  padding-left: 14px;
 }
 
-.kontak-icon {
-  font-size: 1.6rem;
+.skill-number {
+  color: var(--gray);
+  font-size: 0.85rem;
+  font-weight: 500;
+  min-width: 34px;
 }
 
-.kontak-label {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--muted);
-}
-
-.kontak-value {
+.skill-name {
+  font-size: clamp(1.1rem, 2.6vw, 1.7rem);
   font-weight: 600;
 }
 
-.kontak-arrow {
+.skill-arrow {
   margin-left: auto;
-  color: var(--muted);
+  color: var(--gray);
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.kontak-card:hover .kontak-arrow {
+.skill-row:hover .skill-arrow {
   transform: translateX(4px);
-  color: var(--accent);
+  color: var(--ink);
+}
+
+/* ===== KONTAK ===== */
+.kontak-list {
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.kontak-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px 6px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.2s ease, padding-left 0.2s ease;
+}
+
+.kontak-row:hover {
+  background: var(--soft);
+  padding-left: 14px;
+}
+
+.kontak-label {
+  color: var(--gray);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  min-width: 90px;
+}
+
+.kontak-value {
+  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+}
+
+.kontak-row:hover .skill-arrow {
+  transform: translateX(4px);
+  color: var(--ink);
 }
 
 /* ===== FOOTER ===== */
 .footer {
-  border-top: 1px solid var(--border);
-  padding: 26px 0;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
 }
 
 .footer-inner {
@@ -477,7 +529,7 @@ const kontakItems = [
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  color: var(--muted);
+  color: var(--gray);
   font-size: 0.88rem;
 }
 
@@ -487,21 +539,61 @@ const kontakItems = [
 }
 
 .footer-links a {
-  color: var(--muted);
+  color: var(--gray);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .footer-links a:hover {
-  color: var(--text);
+  color: var(--ink);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 820px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .hero-photo-wrap {
+    order: -1;
+  }
+
+  .hero-photo {
+    width: min(240px, 70%);
+  }
+
+  .hero {
+    padding: 56px 0 48px;
+    text-align: center;
+  }
+
+  .hero-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section {
+    padding: 64px 0;
+  }
 }
 
 @media (max-width: 640px) {
   .nav-links {
-    gap: 16px;
+    gap: 14px;
   }
+
   .nav-links a {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
 }
 </style>
