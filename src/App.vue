@@ -475,7 +475,7 @@ const sosmed = [
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 0.9;
-  color: rgb(243, 243, 243);
+  color: rgb(247, 247, 249);
   white-space: nowrap;
   user-select: none;
 }
@@ -830,7 +830,9 @@ const sosmed = [
   color: var(--gray);
   font-size: 0.9rem;
   padding: 0 3%;
-  margin-bottom: 4px;
+  margin: 44px 0 8px;
+  position: relative;
+  z-index: 1;
 }
 
 .marquee {
@@ -838,6 +840,11 @@ const sosmed = [
   background: var(--soft);
   padding: 14px 0;
   white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  /* fade halus di kedua tepi */
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
 }
 
 .marquee-track {
