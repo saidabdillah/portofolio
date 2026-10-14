@@ -48,16 +48,43 @@ const kontakItems = [
   { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247', external: true },
 ]
 
-// state pill reveal email (ala blunar)
-import { ref } from 'vue'
+// state pill: panah bisa digeser kiri-kanan
+// kiri  = "Buka alamat email"
+// kanan = alamat email muncul (klik untuk buka mail)
+import { ref, computed } from 'vue'
 const emailRevealed = ref(false)
+const pillShift = ref('left')
+const DRAG_THRESHOLD = 40
+
+function pillDragStart(e) {
+  e.currentTarget.setPointerCapture?.(e.pointerId)
+}
+
+function pillDragMove(e) {
+  const rect = e.currentTarget.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const half = rect.width / 2
+  pillShift.value = x > half ? 'right' : 'left'
+}
+
+function pillDragEnd() {
+  // posisi panah mengikuti sisi terakhir; emailRevealed sinkron dgn posisi
+  emailRevealed.value = pillShift.value === 'right'
+}
+
+const pillText = computed(() =>
+  emailRevealed.value ? 'msaidabdillah18@gmail.com' : 'Geser panah ke kanan untuk lihat email'
+)
+
 function revealEmail() {
-  if (!emailRevealed.value) {
+  // klik biasa (tanpa drag): toggle
+  if (pillShift.value === 'right') {
+    pillShift.value = 'left'
+    emailRevealed.value = false
+  } else {
+    pillShift.value = 'right'
     emailRevealed.value = true
-    return
   }
-  // klik kedua: buka aplikasi email
-  window.location.href = 'mailto:msaidabdillah18@gmail.com'
 }
 
 const sosmed = [
@@ -303,7 +330,7 @@ const sosmed = [
           </motion.span>
         </div>
 
-        <!-- pill raksasa: klik untuk membuka email -->
+        <!-- pill raksasa: drag panah kiri-kanan untuk ganti teks -->
         <motion.button
           type="button"
           class="kontak-pill"
@@ -312,22 +339,22 @@ const sosmed = [
           :whileInView="{ opacity: 1, y: 0, scale: 1 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.15 }"
+          @pointerdown="pillDragStart"
+          @pointermove="pillDragMove"
+          @pointerup="pillDragEnd"
+          @pointercancel="pillDragEnd"
           @click="revealEmail"
         >
           <span class="kontak-pill-btn" aria-hidden="true">
-            <motion.span
+            <span
               class="kontak-pill-arrow"
-              :initial="{ x: 0 }"
-              :whileHover="{ x: 4 }"
+              :class="{ shifted: emailRevealed }"
             >
               →
-            </motion.span>
+            </span>
           </span>
           <span class="kontak-pill-text display">
-            <span v-if="emailRevealed" class="email-slide">
-              <span class="email-slide-track">msaidabdillah18@gmail.com&nbsp;&nbsp;·&nbsp;&nbsp;msaidabdillah18@gmail.com&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-            </span>
-            <template v-else>Reveal email address</template>
+            {{ pillText }}
           </span>
         </motion.button>
 
@@ -549,11 +576,13 @@ const sosmed = [
   color: var(--ink);
 }
 
+/* highlight "Web" */
 .hl-label {
   display: inline-block;
   margin-top: 6px;
   font-size: 0.84rem;
   line-height: 1.35;
+  white-space: nowrap;
 }
 
 /* ===== SECTIONS ===== */
@@ -717,26 +746,21 @@ const sosmed = [
 
 .kontak-pill.revealed .kontak-pill-text {
   color: var(--ink);
-  flex: 1;
-  overflow: hidden;
 }
 
-/* email bergeser kiri-kanan di dalam pill setelah di-reveal */
-.email-slide {
-  display: block;
-  overflow: hidden;
-  width: 100%;
-}
-
-.email-slide-track {
+/* panah bergeser ke kanan saat drag/klik */
+.kontak-pill-arrow {
   display: inline-block;
-  white-space: nowrap;
-  animation: email-slide 12s linear infinite;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes email-slide {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+.kontak-pill-arrow.shifted {
+  transform: translateX(26px);
+}
+
+/* panah kembali ke kiri saat di sisi kiri */
+.kontak-pill:not(.revealed) .kontak-pill-arrow {
+  transform: translateX(0);
 }
 
 /* kanal lain di bawah pill */
