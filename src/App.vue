@@ -63,7 +63,6 @@ function revealEmail() {
 const sosmed = [
   { label: 'Instagram', handle: '@sxidlent', href: 'https://www.instagram.com/sxidlent/' },
   { label: 'WhatsApp', handle: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
-  { label: 'Email', handle: 'msaidabdillah18@gmail.com', href: 'mailto:msaidabdillah18@gmail.com' },
 ]
 </script>
 
@@ -291,7 +290,7 @@ const sosmed = [
             :transition="{ duration: 0.5 }"
           >
             <span class="route-label">/new_project</span>
-            <h2 class="kontak-heading display">Let's build something special</h2>
+            <h2 class="kontak-heading display">Let's build<br />something special</h2>
           </motion.div>
           <motion.span
             class="badge-dot"
@@ -325,7 +324,10 @@ const sosmed = [
             </motion.span>
           </span>
           <span class="kontak-pill-text display">
-            {{ emailRevealed ? 'msaidabdillah18@gmail.com' : 'Reveal email address' }}
+            <span v-if="emailRevealed" class="email-slide">
+              <span class="email-slide-track">msaidabdillah18@gmail.com&nbsp;&nbsp;·&nbsp;&nbsp;msaidabdillah18@gmail.com&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+            </span>
+            <template v-else>Reveal email address</template>
           </span>
         </motion.button>
 
@@ -361,11 +363,11 @@ const sosmed = [
       >
         <svg viewBox="0 0 120 120" class="badge-svg">
           <defs>
-            <path id="circlePath" d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0" />
+            <path id="circlePath" d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
           </defs>
           <text class="badge-text">
             <textPath href="#circlePath">
-              OPEN TO WORK · LET'S BUILD SOMETHING NEW · OPEN TO WORK ·
+              OPEN TO WORK · LET'S BUILD SOMETHING NEW · OPEN TO WORK · LET'S BUILD SOMETHING NEW ·
             </textPath>
           </text>
         </svg>
@@ -452,14 +454,11 @@ const sosmed = [
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  min-height: calc(100vh - 60px);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  padding: 40px 0;
+  padding: 56px 0 40px;
 }
 
-/* teks raksasa layer belakang */
+/* teks raksasa layer belakang — absolute, tidak memengaruhi layout */
 .hero-bgtext {
   position: absolute;
   inset: 0;
@@ -472,7 +471,7 @@ const sosmed = [
   position: absolute;
   left: -2%;
   font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(6rem, 22vw, 20rem);
+  font-size: clamp(5rem, 20vw, 18rem);
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 0.9;
@@ -486,12 +485,17 @@ const sosmed = [
   z-index: 1;
   width: min(1100px, 92%);
   margin: 0 auto;
+  /* GRID: bio kiri, foto tengah, highlights kanan — 3 kolom sejajar */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 32px;
+  align-items: center;
 }
 
-/* bio kiri atas */
+/* bio kiri */
 .hero-bio {
-  max-width: 420px;
-  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+  max-width: 300px;
+  font-size: clamp(0.92rem, 1.8vw, 1rem);
   line-height: 1.55;
   color: var(--ink);
 }
@@ -501,10 +505,9 @@ const sosmed = [
   margin-right: 6px;
 }
 
-/* foto oval kapsul */
+/* foto oval kapsul di tengah */
 .hero-photo-oval {
-  width: min(400px, 78vw);
-  margin: 36px auto 0;
+  width: min(360px, 60vw);
   aspect-ratio: 3 / 4;
   border-radius: 999px;
   background: linear-gradient(160deg, #fbd3e6 0%, #fde8dd 55%, #fdf6ee 100%);
@@ -513,6 +516,7 @@ const sosmed = [
   justify-content: center;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(251, 190, 216, 0.4);
+  justify-self: center;
 }
 
 .hero-photo {
@@ -523,33 +527,32 @@ const sosmed = [
   filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.13));
 }
 
-/* highlights kanan bawah */
+/* highlights kanan — kolom vertikal rapi */
 .hero-highlights {
   display: flex;
-  justify-content: flex-end;
-  gap: 44px;
-  margin-top: 36px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 26px;
+  justify-self: end;
 }
 
 .hl-top {
   display: block;
-  font-size: clamp(2rem, 5vw, 2.6rem);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.03em;
 }
 
 .hl-icon {
-  width: clamp(32px, 5vw, 40px);
-  height: auto;
+  width: 36px;
+  height: 36px;
   color: var(--ink);
 }
 
 .hl-label {
   display: inline-block;
-  margin-top: 8px;
-  font-size: clamp(0.78rem, 1.7vw, 0.86rem);
+  margin-top: 6px;
+  font-size: 0.84rem;
   line-height: 1.35;
 }
 
@@ -652,7 +655,7 @@ const sosmed = [
   font-size: clamp(2.2rem, 6vw, 4.5rem);
   font-weight: 500;
   letter-spacing: -0.04em;
-  line-height: 1.05;
+  line-height: 1.08;
   max-width: 700px;
   margin-top: -8px;
 }
@@ -714,6 +717,26 @@ const sosmed = [
 
 .kontak-pill.revealed .kontak-pill-text {
   color: var(--ink);
+  flex: 1;
+  overflow: hidden;
+}
+
+/* email bergeser kiri-kanan di dalam pill setelah di-reveal */
+.email-slide {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+
+.email-slide-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: email-slide 12s linear infinite;
+}
+
+@keyframes email-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* kanal lain di bawah pill */
@@ -769,21 +792,21 @@ const sosmed = [
 /* badge teks melingkar berputar */
 .rotating-badge {
   position: absolute;
-  right: 5%;
-  bottom: 40px;
-  width: 110px;
-  height: 110px;
+  right: 6%;
+  bottom: 90px;
+  width: 120px;
+  height: 120px;
 }
 
 .badge-svg {
   width: 100%;
   height: 100%;
-  animation: spin 14s linear infinite;
+  animation: spin 16s linear infinite;
 }
 
 .badge-text {
-  font-size: 11.5px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   fill: var(--ink);
   font-weight: 500;
 }
@@ -794,7 +817,7 @@ const sosmed = [
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 @keyframes spin {
@@ -934,15 +957,38 @@ const sosmed = [
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 820px) {
-  .hero {
-    min-height: auto;
-    padding: 32px 0 48px;
+@media (max-width: 980px) {
+  /* tablet & mobile: hero jadi satu kolom, urutan bio → foto → highlights */
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .hero-bio {
+    max-width: 480px;
+  }
+
+  .hero-photo-oval {
+    width: min(320px, 72vw);
   }
 
   .hero-highlights {
-    justify-content: flex-start;
-    gap: 32px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .rotating-badge {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .hero {
+    padding: 32px 0 40px;
   }
 
   .tech-items {
@@ -969,6 +1015,10 @@ const sosmed = [
 
   .nav-badge {
     display: inline-flex;
+  }
+
+  .kontak-pill-text {
+    font-size: 0.95rem;
   }
 }
 </style>
