@@ -114,7 +114,7 @@ function moveBtnTo(clientX) {
         </div>
         <nav class="nav-links">
           <a v-for="link in navLinks" :key="link.href" :href="link.href">{{ link.label }}</a>
-          <span class="badge-dot nav-badge">Terbuka untuk kerja</span>
+          <span class="badge-dot nav-badge">Siap menerima proyek</span>
         </nav>
       </div>
     </motion.header>
@@ -333,7 +333,7 @@ function moveBtnTo(clientX) {
             :inViewOptions="{ once: true }"
             :transition="{ duration: 0.4 }"
           >
-            Terbuka untuk kerja
+            Siap menerima proyek
           </motion.span>
         </div>
 
@@ -406,7 +406,7 @@ function moveBtnTo(clientX) {
           </defs>
           <text class="badge-text">
             <textPath href="#circlePath">
-              SIAP KERJA · MARI WUJUDKAN YANG BARU · SIAP KERJA · MARI WUJUDKAN YANG BARU ·
+              SIAP KERJA · MARI WUJUDKAN YANG BARU ·
             </textPath>
           </text>
         </svg>
