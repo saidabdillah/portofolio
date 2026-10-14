@@ -43,26 +43,6 @@ const marqueeItems = [
   { name: 'MongoDB', detail: 'Database NoSQL' },
 ]
 
-const kontakItems = [
-  { label: 'Email', value: 'msaidabdillah18@gmail.com', href: 'mailto:msaidabdillah18@gmail.com', external: false },
-  { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247', external: true },
-]
-
-// state pill: lingkaran oranye bergeser kiri ↔ kanan.
-// Kiri  = teks "Geser panah ke kanan untuk lihat email"
-// Kanan = alamat email muncul (teks jadi link mailto)
-import { ref, computed } from 'vue'
-const emailRevealed = ref(false)
-
-const pillText = computed(() =>
-  emailRevealed.value ? 'msaidabdillah18@gmail.com' : 'Geser panah ke kanan untuk lihat email'
-)
-
-function revealEmail() {
-  // klik: geser kanan (reveal) ↔ kiri (teks awal)
-  emailRevealed.value = !emailRevealed.value
-}
-
 const sosmed = [
   { label: 'Instagram', handle: '@sxidlent', href: 'https://www.instagram.com/sxidlent/' },
   { label: 'WhatsApp', handle: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
@@ -308,28 +288,24 @@ const sosmed = [
           </motion.span>
         </div>
 
-        <!-- pill raksasa: drag panah kiri-kanan untuk ganti teks -->
-        <motion.button
-          type="button"
+        <!-- pill ala video: judul + subteks, tombol panah kiri, seluruh pill adalah mailto -->
+        <motion.a
+          href="mailto:msaidabdillah18@gmail.com"
           class="kontak-pill"
-          :class="{ revealed: emailRevealed }"
           :initial="{ opacity: 0, y: 30, scale: 0.97 }"
           :whileInView="{ opacity: 1, y: 0, scale: 1 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.15 }"
-          @click="revealEmail"
+          :whileHover="{ scale: 1.01 }"
         >
-          <span
-            class="kontak-pill-btn"
-            :class="{ revealed: emailRevealed }"
-            aria-hidden="true"
-          >
+          <span class="kontak-pill-btn" aria-hidden="true">
             <span class="kontak-pill-arrow">→</span>
           </span>
-          <span class="kontak-pill-text display">
-            {{ pillText }}
+          <span class="kontak-pill-copy">
+            <span class="kontak-pill-title display">Hubungi saya</span>
+            <span class="kontak-pill-sub">Kirim email — saya balas secepatnya</span>
           </span>
-        </motion.button>
+        </motion.a>
 
         <!-- kanal lain: WA & Instagram -->
         <div class="kontak-links">
@@ -672,21 +648,21 @@ const sosmed = [
   margin-top: -8px;
 }
 
-/* pill raksasa reveal email — slider */
+/* pill ala video: tombol panah kiri + judul & subteks, seluruh pill = mailto */
 .kontak-pill {
-  position: relative;
   display: flex;
   align-items: center;
+  gap: 22px;
   width: min(720px, 100%);
   margin: 48px 0 0;
-  padding: 14px 18px 14px 14px;
+  padding: 16px 24px 16px 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: #fff;
   cursor: pointer;
-  touch-action: none;
-  user-select: none;
   text-align: left;
+  text-decoration: none;
+  color: var(--ink);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -695,18 +671,9 @@ const sosmed = [
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
 }
 
-.kontak-pill.revealed {
-  border-color: var(--ink);
-}
-
-/* lingkaran oranye yang digeser — absolute, kiri ↔ kanan via transisi left */
 .kontak-pill-btn {
-  position: absolute;
-  left: 10px;
-  top: 50%;
   width: 62px;
   height: 62px;
-  margin-top: -31px;
   border-radius: 50%;
   background: #f59e0b;
   color: #fff;
@@ -714,27 +681,39 @@ const sosmed = [
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  cursor: grab;
-  /* animasi geser kiri ↔ kanan */
-  transition: left 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
 }
 
-.kontak-pill.revealed .kontak-pill-btn {
-  left: calc(100% - 72px);
-  cursor: pointer;
+/* panah meluncur ke kanan saat pill di-hover */
+.kontak-pill:hover .kontak-pill-btn {
+  transform: scale(1.05);
 }
 
-.kontak-pill-text {
-  margin-left: 76px;
-  font-size: clamp(1rem, 2.6vw, 1.5rem);
-  font-weight: 500;
+.kontak-pill:hover .kontak-pill-arrow {
+  transform: translateX(4px);
+}
+
+.kontak-pill-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.kontak-pill-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.kontak-pill-title {
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+  font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--gray);
-  transition: color 0.25s ease;
 }
 
-.kontak-pill.revealed .kontak-pill-text {
-  color: var(--ink);
+.kontak-pill-sub {
+  font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+  color: var(--gray);
 }
 
 /* kanal lain di bawah pill */
