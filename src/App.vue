@@ -258,7 +258,8 @@ function moveBtnTo(clientX) {
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.65 }"
         >
-          Muhammad Said Abdillah — Web Developer
+          Mengubah ide menjadi aplikasi web yang fungsional, terstruktur, dan siap
+          menjawab kebutuhan dunia digital.
         </motion.h2>
 
         <motion.p
@@ -268,10 +269,9 @@ function moveBtnTo(clientX) {
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.12 }"
         >
-          Saya adalah Web Developer yang berfokus pada pengembangan aplikasi web modern,
-          mulai dari merancang antarmuka yang interaktif dan responsif, membangun sistem
-          backend yang terstruktur, hingga mengelola database relasional maupun
-          non-relasional.
+          Halo, saya Muhammad Said Abdillah, seorang Web Developer yang berfokus pada
+          membangun dan mengembangkan aplikasi web modern serta solusi digital yang
+          inovatif dan bermanfaat.
         </motion.p>
 
         <motion.p
@@ -281,11 +281,11 @@ function moveBtnTo(clientX) {
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.2 }"
         >
-          Saya memiliki ketertarikan pada pengembangan perangkat lunak yang tidak hanya
-          berfungsi dengan baik, tetapi juga dirancang dengan memperhatikan efisiensi,
-          skalabilitas, dan pengalaman pengguna. Dengan terus mengeksplorasi teknologi
-          dan pendekatan baru, saya berupaya menciptakan solusi digital yang relevan,
-          efektif, dan mampu menjawab kebutuhan nyata.
+          Saya memiliki pengalaman dalam membangun antarmuka web yang interaktif dan
+          responsif, mengembangkan sistem backend, serta merancang dan mengelola database
+          relasional maupun non-relasional. Saya senang menggabungkan berbagai teknologi
+          dan framework untuk membangun aplikasi yang fungsional, terstruktur, efisien,
+          dan mudah dikembangkan.
         </motion.p>
 
         <motion.p
@@ -295,8 +295,11 @@ function moveBtnTo(clientX) {
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.28 }"
         >
-          Bagi saya, setiap proyek merupakan kesempatan untuk mengembangkan kemampuan,
-          memperluas wawasan teknis, dan menghasilkan karya yang memberikan nilai nyata.
+          Saya terus mengembangkan kemampuan teknis melalui eksplorasi teknologi baru dan
+          pemecahan masalah dalam proses pengembangan perangkat lunak. Bagi saya,
+          membangun aplikasi bukan hanya tentang menulis kode, tetapi juga tentang
+          mengembangkan solusi yang mampu menjawab kebutuhan pengguna dan memberikan nilai
+          nyata.
         </motion.p>
       </div>
     </section>
@@ -722,6 +725,11 @@ function moveBtnTo(clientX) {
   text-align: justify;
   hyphens: auto;
   -webkit-hyphens: auto;
+}
+
+/* beri jarak antar paragraf supaya batasnya terlihat (bukan menyatu) */
+.section-text + .section-text {
+  margin-top: 18px;
 }
 
 /* ===== TECH STACK ===== */
