@@ -1,7 +1,6 @@
 <script setup>
 import { motion } from 'motion-v'
 import { useScroll, useTransform } from 'motion-v'
-import fotoSaid from './assets/foto-said.png'
 import fotoMalam from './assets/foto-malam.jpg'
 
 const { scrollY } = useScroll()
@@ -138,19 +137,7 @@ function moveBtnTo(clientX) {
       </div>
 
       <div class="container hero-inner">
-        <!-- bio kiri atas -->
-        <motion.p
-          class="hero-bio"
-          :initial="{ opacity: 0, y: 18 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6, delay: 0.1 }"
-        >
-          <span class="bio-mark">✳</span>
-          Saya web developer yang membangun aplikasi web modern — antarmuka
-          interaktif, sistem backend, hingga pengelolaan database.
-        </motion.p>
-
-        <!-- foto oval kapsul, pusat halaman -->
+        <!-- kolom kiri: foto dalam kapsul -->
         <motion.div
           class="hero-photo-oval"
           :style="{ y: photoY }"
@@ -168,32 +155,45 @@ function moveBtnTo(clientX) {
           />
         </motion.div>
 
-        <!-- highlights kanan: template seragam horizontal (lead fixed-width + label) -->
-        <motion.div
-          class="hero-highlights"
-          :initial="{ opacity: 0, y: 24 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6, delay: 0.7 }"
-        >
-          <div v-for="h in highlights" :key="h.label" class="hl">
-            <span class="hl-lead">
-              <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
-              <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-                <circle cx="20" cy="20" r="13" />
-                <ellipse cx="20" cy="20" rx="6" ry="13" />
-                <line x1="7" y1="20" x2="33" y2="20" />
-              </svg>
-              <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-                <line x1="20" y1="6" x2="20" y2="34" />
-                <line x1="6" y1="20" x2="34" y2="20" />
-                <line x1="10" y1="10" x2="30" y2="30" />
-                <line x1="30" y1="10" x2="10" y2="30" />
-                <circle cx="20" cy="20" r="5" />
-              </svg>
-            </span>
-            <span class="hl-label" v-html="h.label" />
-          </div>
-        </motion.div>
+        <!-- kolom kanan: bio di atas, highlight di bawahnya -->
+        <div class="hero-right">
+          <motion.p
+            class="hero-bio"
+            :initial="{ opacity: 0, y: 18 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.6, delay: 0.1 }"
+          >
+            <span class="bio-mark">✳</span>
+            Saya web developer yang membangun aplikasi web modern — antarmuka
+            interaktif, sistem backend, hingga pengelolaan database.
+          </motion.p>
+
+          <motion.div
+            class="hero-highlights"
+            :initial="{ opacity: 0, y: 24 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.6, delay: 0.7 }"
+          >
+            <div v-for="h in highlights" :key="h.label" class="hl">
+              <span class="hl-lead">
+                <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
+                <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <circle cx="20" cy="20" r="13" />
+                  <ellipse cx="20" cy="20" rx="6" ry="13" />
+                  <line x1="7" y1="20" x2="33" y2="20" />
+                </svg>
+                <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+                  <line x1="20" y1="6" x2="20" y2="34" />
+                  <line x1="6" y1="20" x2="34" y2="20" />
+                  <line x1="10" y1="10" x2="30" y2="30" />
+                  <line x1="30" y1="10" x2="10" y2="30" />
+                  <circle cx="20" cy="20" r="5" />
+                </svg>
+              </span>
+              <span class="hl-label" v-html="h.label" />
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       <!-- marquee ticker: "My clients recently raised" ala blunar -->
@@ -527,36 +527,25 @@ function moveBtnTo(clientX) {
   z-index: 1;
   width: min(1100px, 92%);
   margin: 0 auto;
-  /* GRID eksplisit: foto kiri, bio kanan atas, highlight kanan bawah */
+  /* 2 kolom: foto kiri | (bio + highlight) kanan */
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  gap: 20px 40px;
+  gap: 48px;
   align-items: center;
 }
 
-/* foto di kolom kiri, bio di kolom kanan, highlight di bawah bio kanan */
-.hero-photo-oval {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.hero-bio {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
+/* kolom kanan: bio di atas, highlight di bawah, semua rata kanan */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
   text-align: right;
 }
 
-.hero-highlights {
-  grid-column: 2;
-  grid-row: 2;
-  justify-self: end;
-}
-
-/* bio max width & font tetap diatur di sini (setelah order) */
+/* bio kanan atas */
 .hero-bio {
-  max-width: 300px;
+  max-width: 320px;
   font-size: clamp(0.92rem, 1.8vw, 1rem);
   line-height: 1.55;
   color: var(--ink);
@@ -567,9 +556,10 @@ function moveBtnTo(clientX) {
   margin-right: 6px;
 }
 
-/* foto oval kapsul di tengah */
+/* foto oval kapsul di kiri */
 .hero-photo-oval {
-  width: min(360px, 60vw);
+  width: min(340px, 34vw);
+  max-height: 58vh;
   aspect-ratio: 3 / 4;
   border-radius: 999px;
   background: linear-gradient(165deg, #9fc2ef 0%, #bcd6f2 55%, #e3effc 100%);
@@ -578,7 +568,6 @@ function moveBtnTo(clientX) {
   justify-content: center;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(96, 138, 200, 0.35);
-  justify-self: center;
 }
 
 .hero-photo {
@@ -1047,7 +1036,8 @@ function moveBtnTo(clientX) {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 980px) {
   /* tablet & mobile: hero satu kolom — bio → foto → highlights, semua center.
-     Watermark (bgtext) diposisikan tepat di belakang foto. */
+     .hero-right dibuka (display: contents) agar bio & highlight jadi item
+     grid tersendiri, sehingga bisa disisipkan foto di antaranya. */
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -1055,30 +1045,26 @@ function moveBtnTo(clientX) {
     text-align: center;
   }
 
-  /* reset penempatan grid desktop */
-  .hero-photo-oval,
-  .hero-bio,
-  .hero-highlights {
-    grid-column: auto;
-    grid-row: auto;
+  .hero-right {
+    display: contents;
   }
 
-  /* watermark tepat di belakang foto (foto = item ke-2, kira-kira 25% ke bawah) */
+  /* watermark tepat di belakang foto: 3 kata dipusatkan vertikal di hero */
   .hero-bgtext {
-    top: 22%;
     align-items: center;
+    justify-content: center;
   }
 
   .hero-bio {
     order: 1;
     max-width: 480px;
-    justify-self: center;
     text-align: center;
   }
 
   .hero-photo-oval {
     order: 2;
-    width: min(320px, 72vw);
+    width: min(300px, 68vw);
+    max-height: none;
   }
 
   .hero-highlights {
