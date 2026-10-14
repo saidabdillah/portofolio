@@ -47,6 +47,55 @@ const sosmed = [
   { label: 'Instagram', handle: '@sxidlent', href: 'https://www.instagram.com/sxidlent/' },
   { label: 'WhatsApp', handle: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
 ]
+
+// ===== slider pill kontak =====
+// Lingkaran oranye bisa digeser kiri-kanan.
+// Di kanan  → tampil email + link kirim
+// Di kiri   → teks ajakan
+import { ref, computed } from 'vue'
+
+const emailRevealed = ref(false)
+const isDragging = ref(false)
+const atRight = ref(false)
+const btnLeft = ref('10px')
+
+const BTN = 62      // diameter lingkaran
+const PAD = 8       // jarak tepi dalam pill
+let pillRect = null
+
+function pillDown(e) {
+  e.currentTarget.setPointerCapture?.(e.pointerId)
+  pillRect = e.currentTarget.getBoundingClientRect()
+  isDragging.value = true
+  // mulai dari posisi lingkaran sekarang
+  moveBtnTo(e.clientX)
+}
+
+function pillMove(e) {
+  if (!isDragging.value || !pillRect) return
+  moveBtnTo(e.clientX)
+}
+
+function pillUp(e) {
+  if (!isDragging.value) return
+  isDragging.value = false
+  // snap: kanan jika lingkaran berada di paruh kanan pill
+  atRight.value = e.clientX - pillRect.left > pillRect.width / 2
+  emailRevealed.value = atRight.value
+  btnLeft.value = atRight.value
+    ? `calc(100% - ${BTN + PAD}px)`
+    : `${PAD}px`
+  pillRect = null
+}
+
+function moveBtnTo(clientX) {
+  const x = clientX - pillRect.left - BTN / 2
+  const min = PAD
+  const max = pillRect.width - BTN - PAD
+  const clamped = Math.min(max, Math.max(min, x))
+  atRight.value = clamped > max / 2
+  btnLeft.value = `${clamped}px`
+}
 </script>
 
 <template>
@@ -78,7 +127,7 @@ const sosmed = [
           v-for="(word, i) in bgWords"
           :key="word"
           class="bg-word display"
-          :style="{ x: bgTextX, top: `${16 + i * 30}%` }"
+          :style="{ x: bgTextX }"
           :initial="{ opacity: 0 }"
           :animate="{ opacity: 1 }"
           :transition="{ duration: 1, delay: 0.2 + i * 0.15 }"
@@ -288,24 +337,38 @@ const sosmed = [
           </motion.span>
         </div>
 
-        <!-- pill ala video: judul + subteks, tombol panah kiri, seluruh pill adalah mailto -->
-        <motion.a
-          href="mailto:msaidabdillah18@gmail.com"
+        <!-- pill slider: lingkaran oranye digeser kanan = tampil email & kirim; kiri = teks ajakan -->
+        <motion.div
           class="kontak-pill"
+          :class="{ revealed: emailRevealed }"
           :initial="{ opacity: 0, y: 30, scale: 0.97 }"
           :whileInView="{ opacity: 1, y: 0, scale: 1 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.15 }"
-          :whileHover="{ scale: 1.01 }"
+          @pointerdown="pillDown"
+          @pointermove="pillMove"
+          @pointerup="pillUp"
+          @pointercancel="pillUp"
         >
-          <span class="kontak-pill-btn" aria-hidden="true">
+          <span
+            class="kontak-pill-btn"
+            :class="{ dragging: isDragging, atRight: atRight }"
+            :style="{ left: btnLeft }"
+            aria-hidden="true"
+          >
             <span class="kontak-pill-arrow">→</span>
           </span>
           <span class="kontak-pill-copy">
-            <span class="kontak-pill-title display">Hubungi saya</span>
-            <span class="kontak-pill-sub">Kirim email — saya balas secepatnya</span>
+            <template v-if="atRight">
+              <a href="mailto:msaidabdillah18@gmail.com" class="kontak-pill-title display">msaidabdillah18@gmail.com</a>
+              <span class="kontak-pill-sub">Klik untuk kirim email</span>
+            </template>
+            <template v-else>
+              <span class="kontak-pill-title display">Hubungi saya</span>
+              <span class="kontak-pill-sub">Kirim email — saya balas secepatnya</span>
+            </template>
           </span>
-        </motion.a>
+        </motion.div>
 
         <!-- kanal lain: WA & Instagram -->
         <div class="kontak-links">
@@ -441,16 +504,18 @@ const sosmed = [
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .bg-word {
-  position: absolute;
-  left: -2%;
+  display: block;
   font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(5rem, 20vw, 18rem);
+  font-size: clamp(3.4rem, 12.5vw, 12.5rem);
   font-weight: 500;
   letter-spacing: -0.05em;
-  line-height: 0.9;
+  line-height: 1.02;
   color: rgb(247, 247, 249);
   white-space: nowrap;
   user-select: none;
@@ -648,21 +713,21 @@ const sosmed = [
   margin-top: -8px;
 }
 
-/* pill ala video: tombol panah kiri + judul & subteks, seluruh pill = mailto */
+/* pill slider: lingkaran oranye digeser lewat pointer, snap kiri/kanan */
 .kontak-pill {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 22px;
   width: min(720px, 100%);
   margin: 48px 0 0;
-  padding: 16px 24px 16px 16px;
+  padding: 14px 24px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: #fff;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
   text-align: left;
-  text-decoration: none;
-  color: var(--ink);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -671,9 +736,17 @@ const sosmed = [
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
 }
 
+.kontak-pill.revealed {
+  border-color: var(--ink);
+}
+
+/* lingkaran oranye — posisi left dikontrol JS */
 .kontak-pill-btn {
+  position: absolute;
+  top: 50%;
   width: 62px;
   height: 62px;
+  margin-top: -31px;
   border-radius: 50%;
   background: #f59e0b;
   color: #fff;
@@ -681,34 +754,36 @@ const sosmed = [
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
+  cursor: grab;
+  /* snap halus saat dilepas */
+  transition: left 0.3s cubic-bezier(0.34, 1.3, 0.64, 1), transform 0.25s ease;
 }
 
-/* panah meluncur ke kanan saat pill di-hover */
-.kontak-pill:hover .kontak-pill-btn {
-  transform: scale(1.05);
-}
-
-.kontak-pill:hover .kontak-pill-arrow {
-  transform: translateX(4px);
+/* saat digenggam: ikuti pointer tanpa transisi */
+.kontak-pill-btn.dragging {
+  cursor: grabbing;
+  transition: none;
 }
 
 .kontak-pill-arrow {
   display: inline-block;
-  transition: transform 0.25s ease;
 }
 
 .kontak-pill-copy {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  /* beri ruang agar tidak tertutup lingkaran yang digeser */
+  padding-left: 56px;
+  width: 100%;
 }
 
 .kontak-pill-title {
-  font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+  font-size: clamp(1rem, 2.6vw, 1.4rem);
   font-weight: 600;
   letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
 }
 
 .kontak-pill-sub {
@@ -782,8 +857,8 @@ const sosmed = [
 }
 
 .badge-text {
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 9px;
+  letter-spacing: 0.18em;
   fill: var(--ink);
   font-weight: 500;
 }
