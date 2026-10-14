@@ -48,6 +48,18 @@ const kontakItems = [
   { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247', external: true },
 ]
 
+// state pill reveal email (ala blunar)
+import { ref } from 'vue'
+const emailRevealed = ref(false)
+function revealEmail() {
+  if (!emailRevealed.value) {
+    emailRevealed.value = true
+    return
+  }
+  // klik kedua: buka aplikasi email
+  window.location.href = 'mailto:msaidabdillah18@gmail.com'
+}
+
 const sosmed = [
   { label: 'Instagram', handle: '@sxidlent', href: 'https://www.instagram.com/sxidlent/' },
   { label: 'WhatsApp', handle: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
@@ -268,88 +280,97 @@ const sosmed = [
 
     <hr class="divider" />
 
-    <!-- ===== /KONTAK ===== -->
-    <section id="kontak" class="section">
+    <!-- ===== /KONTAK: ala blunar — pill reveal email + badge berputar ===== -->
+    <section id="kontak" class="section kontak-hero">
       <div class="container">
-        <motion.span
-          class="route-label"
-          :initial="{ opacity: 0, y: 12 }"
-          :whileInView="{ opacity: 1, y: 0 }"
-          :inViewOptions="{ once: true, amount: 0.6 }"
-          :transition="{ duration: 0.5 }"
-        >
-          /kontak
-        </motion.span>
+        <div class="kontak-top">
+          <motion.div
+            :initial="{ opacity: 0, y: 14 }"
+            :whileInView="{ opacity: 1, y: 0 }"
+            :inViewOptions="{ once: true, amount: 0.6 }"
+            :transition="{ duration: 0.5 }"
+          >
+            <span class="route-label">/new_project</span>
+            <h2 class="kontak-heading display">Let's build something special</h2>
+          </motion.div>
+          <motion.span
+            class="badge-dot"
+            :initial="{ opacity: 0, scale: 0.9 }"
+            :whileInView="{ opacity: 1, scale: 1 }"
+            :inViewOptions="{ once: true }"
+            :transition="{ duration: 0.4 }"
+          >
+            Available for work
+          </motion.span>
+        </div>
 
-        <motion.h2
-          class="about-statement display"
-          :initial="{ opacity: 0, y: 26 }"
-          :whileInView="{ opacity: 1, y: 0 }"
+        <!-- pill raksasa: klik untuk membuka email -->
+        <motion.button
+          type="button"
+          class="kontak-pill"
+          :class="{ revealed: emailRevealed }"
+          :initial="{ opacity: 0, y: 30, scale: 0.97 }"
+          :whileInView="{ opacity: 1, y: 0, scale: 1 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
-          :transition="{ duration: 0.65 }"
+          :transition="{ duration: 0.6, delay: 0.15 }"
+          @click="revealEmail"
         >
-          Mari bekerja sama.
-        </motion.h2>
+          <span class="kontak-pill-btn" aria-hidden="true">
+            <motion.span
+              class="kontak-pill-arrow"
+              :initial="{ x: 0 }"
+              :whileHover="{ x: 4 }"
+            >
+              →
+            </motion.span>
+          </span>
+          <span class="kontak-pill-text display">
+            {{ emailRevealed ? 'msaidabdillah18@gmail.com' : 'Reveal email address' }}
+          </span>
+        </motion.button>
 
-        <motion.p
-          class="section-text"
-          :initial="{ opacity: 0, y: 18 }"
-          :whileInView="{ opacity: 1, y: 0 }"
-          :inViewOptions="{ once: true, amount: 0.4 }"
-          :transition="{ duration: 0.6, delay: 0.1 }"
-        >
-          Punya proyek, ide, atau sekadar ingin berdiskusi soal teknologi?
-          Hubungi saya lewat kanal di bawah.
-        </motion.p>
-
-        <div class="kontak-list">
+        <!-- kanal lain: WA & Instagram -->
+        <div class="kontak-links">
           <motion.a
-            v-for="(item, i) in kontakItems"
-            :key="item.label"
-            :href="item.href"
-            class="kontak-row"
-            :target="item.external ? '_blank' : undefined"
-            :rel="item.external ? 'noopener noreferrer' : undefined"
+            v-for="(s, i) in sosmed"
+            :key="s.label"
+            :href="s.href"
+            class="kontak-link"
+            target="_blank"
+            rel="noopener noreferrer"
             :initial="{ opacity: 0, y: 16 }"
             :whileInView="{ opacity: 1, y: 0 }"
             :inViewOptions="{ once: true, amount: 0.5 }"
-            :transition="{ duration: 0.45, delay: i * 0.1 }"
-            :whileHover="{ x: 10 }"
+            :transition="{ duration: 0.45, delay: 0.25 + i * 0.08 }"
+            :whileHover="{ y: -3 }"
           >
-            <span class="kontak-label">{{ item.label }}</span>
-            <span class="kontak-value display">{{ item.value }}</span>
-            <span class="kontak-arrow">→</span>
+            <span class="kontak-link-label">{{ s.label }}</span>
+            <span class="kontak-link-value display">{{ s.handle }}</span>
+            <span class="kontak-link-arrow">↗</span>
           </motion.a>
         </div>
-
-        <!-- sosial media -->
-        <motion.div
-          class="sosmed"
-          :initial="{ opacity: 0, y: 18 }"
-          :whileInView="{ opacity: 1, y: 0 }"
-          :inViewOptions="{ once: true, amount: 0.4 }"
-          :transition="{ duration: 0.6, delay: 0.2 }"
-        >
-          <p class="sosmed-title">Temukan saya di:</p>
-          <div class="sosmed-row">
-            <motion.a
-              v-for="(s, i) in sosmed"
-              :key="s.label"
-              :href="s.href"
-              class="sosmed-pill"
-              :initial="{ opacity: 0, scale: 0.92 }"
-              :whileInView="{ opacity: 1, scale: 1 }"
-              :inViewOptions="{ once: true }"
-              :transition="{ duration: 0.4, delay: 0.25 + i * 0.08 }"
-              :whileHover="{ y: -3 }"
-            >
-              <span class="sosmed-label">{{ s.label }}</span>
-              <span class="sosmed-handle">{{ s.handle }}</span>
-              <span class="sosmed-arrow">↗</span>
-            </motion.a>
-          </div>
-        </motion.div>
       </div>
+
+      <!-- badge teks melingkar berputar -->
+      <motion.div
+        class="rotating-badge"
+        :initial="{ opacity: 0, scale: 0.6 }"
+        :whileInView="{ opacity: 1, scale: 1 }"
+        :inViewOptions="{ once: true }"
+        :transition="{ type: 'spring', stiffness: 120, damping: 14, delay: 0.4 }"
+      >
+        <svg viewBox="0 0 120 120" class="badge-svg">
+          <defs>
+            <path id="circlePath" d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0" />
+          </defs>
+          <text class="badge-text">
+            <textPath href="#circlePath">
+              OPEN TO WORK · LET'S BUILD SOMETHING NEW · OPEN TO WORK ·
+            </textPath>
+          </text>
+        </svg>
+        <span class="badge-center display">↗</span>
+      </motion.div>
     </section>
 
     <!-- ===== FOOTER ===== -->
@@ -612,50 +633,173 @@ const sosmed = [
   background: var(--soft);
 }
 
-/* ===== KONTAK ===== */
-.kontak-list {
-  margin-top: 40px;
-  border-top: 1px solid var(--line);
+/* ===== KONTAK HERO (ala blunar) ===== */
+.kontak-hero {
+  position: relative;
+  padding: 110px 0 90px;
 }
 
-.kontak-row {
+.kontak-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.kontak-heading {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  max-width: 700px;
+  margin-top: -8px;
+}
+
+/* pill raksasa reveal email */
+.kontak-pill {
   display: flex;
   align-items: center;
-  gap: 22px;
-  padding: 24px 6px;
-  border-bottom: 1px solid var(--line);
-  text-decoration: none;
-  color: var(--ink);
-  transition: background 0.2s ease;
+  gap: 18px;
+  width: min(720px, 100%);
+  margin: 48px 0 0;
+  padding: 14px 18px 14px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.kontak-row:hover {
-  background: var(--soft);
+.kontak-pill:hover {
+  border-color: var(--ink);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
 }
 
-.kontak-label {
-  color: var(--gray);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  min-width: 90px;
+.kontak-pill.revealed {
+  border-color: var(--ink);
 }
 
-.kontak-value {
-  font-size: clamp(1.02rem, 2.3vw, 1.45rem);
+.kontak-pill-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.kontak-pill:hover .kontak-pill-btn {
+  transform: scale(1.06);
+}
+
+.kontak-pill-arrow {
+  display: inline-block;
+}
+
+.kontak-pill-text {
+  font-size: clamp(1rem, 2.6vw, 1.5rem);
   font-weight: 500;
   letter-spacing: -0.02em;
-}
-
-.kontak-arrow {
-  margin-left: auto;
   color: var(--gray);
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: color 0.25s ease;
 }
 
-.kontak-row:hover .kontak-arrow {
-  transform: translateX(4px);
+.kontak-pill.revealed .kontak-pill-text {
   color: var(--ink);
+}
+
+/* kanal lain di bawah pill */
+.kontak-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.kontak-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kontak-link:hover {
+  border-color: var(--ink);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.kontak-link-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gray);
+}
+
+.kontak-link-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.kontak-link-arrow {
+  color: var(--gray);
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.kontak-link:hover .kontak-link-arrow {
+  transform: translate(2px, -2px);
+  color: var(--ink);
+}
+
+/* badge teks melingkar berputar */
+.rotating-badge {
+  position: absolute;
+  right: 5%;
+  bottom: 40px;
+  width: 110px;
+  height: 110px;
+}
+
+.badge-svg {
+  width: 100%;
+  height: 100%;
+  animation: spin 14s linear infinite;
+}
+
+.badge-text {
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  fill: var(--ink);
+  font-weight: 500;
+}
+
+.badge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* ===== MARQUEE TICKER ===== */
