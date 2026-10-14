@@ -628,6 +628,9 @@ function moveBtnTo(clientX) {
   color: var(--gray);
   max-width: 640px;
   font-size: 0.98rem;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 /* ===== TECH STACK ===== */
@@ -857,8 +860,8 @@ function moveBtnTo(clientX) {
 }
 
 .badge-text {
-  font-size: 9px;
-  letter-spacing: 0.18em;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
   fill: var(--ink);
   font-weight: 500;
 }
