@@ -15,7 +15,7 @@ const navLinks = [
 ]
 
 // teks raksasa di belakang foto
-const bgWords = ['DEVELOPER', 'CREATOR', 'BUILDER']
+const bgWords = ['DEVELOPER', 'DESIGN', 'BUILDER']
 
 // Tech Stack terstruktur
 const techStack = [
@@ -608,23 +608,29 @@ function moveBtnTo(clientX) {
 /* foto oval kapsul di TENGAH */
 .hero-photo-oval {
   grid-column: 2;
+  position: relative;
   width: min(340px, 34vw);
-  max-height: 52vh;
   aspect-ratio: 3 / 4;
+  max-height: 62vh;
   border-radius: 999px;
   background: linear-gradient(165deg, #9fc2ef 0%, #bcd6f2 55%, #e3effc 100%);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(96, 138, 200, 0.35);
   /* dinaikkan ke atas */
   margin-top: -52px;
 }
 
+/* foto cutout: lebar & tinggi eksplisit + margin auto supaya benar-benar
+   di tengah (transform dipakai Motion untuk animasi, jangan diutak-atik),
+   diberi jarak bawah supaya dagu tidak berada tepat di dasar kapsul */
 .hero-photo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  margin: 0 auto;
   width: 92%;
-  height: auto;
+  height: 78%;
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.18));
