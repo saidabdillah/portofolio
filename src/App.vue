@@ -48,42 +48,19 @@ const kontakItems = [
   { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247', external: true },
 ]
 
-// state pill: panah bisa digeser kiri-kanan
-// kiri  = "Buka alamat email"
-// kanan = alamat email muncul (klik untuk buka mail)
+// state pill: lingkaran oranye bergeser kiri ↔ kanan.
+// Kiri  = teks "Geser panah ke kanan untuk lihat email"
+// Kanan = alamat email muncul (teks jadi link mailto)
 import { ref, computed } from 'vue'
 const emailRevealed = ref(false)
-const pillShift = ref('left')
-const DRAG_THRESHOLD = 40
-
-function pillDragStart(e) {
-  e.currentTarget.setPointerCapture?.(e.pointerId)
-}
-
-function pillDragMove(e) {
-  const rect = e.currentTarget.getBoundingClientRect()
-  const x = e.clientX - rect.left
-  const half = rect.width / 2
-  pillShift.value = x > half ? 'right' : 'left'
-}
-
-function pillDragEnd() {
-  // posisi panah mengikuti sisi terakhir; emailRevealed sinkron dgn posisi
-  emailRevealed.value = pillShift.value === 'right'
-}
 
 const pillText = computed(() =>
   emailRevealed.value ? 'msaidabdillah18@gmail.com' : 'Geser panah ke kanan untuk lihat email'
 )
+
 function revealEmail() {
-  // klik biasa (tanpa drag): toggle
-  if (pillShift.value === 'right') {
-    pillShift.value = 'left'
-    emailRevealed.value = false
-  } else {
-    pillShift.value = 'right'
-    emailRevealed.value = true
-  }
+  // klik: geser kanan (reveal) ↔ kiri (teks awal)
+  emailRevealed.value = !emailRevealed.value
 }
 
 const sosmed = [
@@ -340,19 +317,14 @@ const sosmed = [
           :whileInView="{ opacity: 1, y: 0, scale: 1 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.15 }"
-          @pointerdown="pillDragStart"
-          @pointermove="pillDragMove"
-          @pointerup="pillDragEnd"
-          @pointercancel="pillDragEnd"
           @click="revealEmail"
         >
-          <span class="kontak-pill-btn" aria-hidden="true">
-            <span
-              class="kontak-pill-arrow"
-              :class="{ shifted: emailRevealed }"
-            >
-              →
-            </span>
+          <span
+            class="kontak-pill-btn"
+            :class="{ revealed: emailRevealed }"
+            aria-hidden="true"
+          >
+            <span class="kontak-pill-arrow">→</span>
           </span>
           <span class="kontak-pill-text display">
             {{ pillText }}
@@ -700,11 +672,11 @@ const sosmed = [
   margin-top: -8px;
 }
 
-/* pill raksasa reveal email */
+/* pill raksasa reveal email — slider */
 .kontak-pill {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 18px;
   width: min(720px, 100%);
   margin: 48px 0 0;
   padding: 14px 18px 14px 14px;
@@ -712,6 +684,8 @@ const sosmed = [
   border-radius: 999px;
   background: #fff;
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
   text-align: left;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -725,9 +699,14 @@ const sosmed = [
   border-color: var(--ink);
 }
 
+/* lingkaran oranye yang digeser — absolute, kiri ↔ kanan via transisi left */
 .kontak-pill-btn {
-  width: 56px;
-  height: 56px;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 62px;
+  height: 62px;
+  margin-top: -31px;
   border-radius: 50%;
   background: #f59e0b;
   color: #fff;
@@ -735,19 +714,18 @@ const sosmed = [
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
+  cursor: grab;
+  /* animasi geser kiri ↔ kanan */
+  transition: left 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
-.kontak-pill:hover .kontak-pill-btn {
-  transform: scale(1.06);
-}
-
-.kontak-pill-arrow {
-  display: inline-block;
+.kontak-pill.revealed .kontak-pill-btn {
+  left: calc(100% - 72px);
+  cursor: pointer;
 }
 
 .kontak-pill-text {
+  margin-left: 76px;
   font-size: clamp(1rem, 2.6vw, 1.5rem);
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -757,21 +735,6 @@ const sosmed = [
 
 .kontak-pill.revealed .kontak-pill-text {
   color: var(--ink);
-}
-
-/* panah bergeser ke kanan saat drag/klik */
-.kontak-pill-arrow {
-  display: inline-block;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.kontak-pill-arrow.shifted {
-  transform: translateX(26px);
-}
-
-/* panah kembali ke kiri saat di sisi kiri */
-.kontak-pill:not(.revealed) .kontak-pill-arrow {
-  transform: translateX(0);
 }
 
 /* kanal lain di bawah pill */
