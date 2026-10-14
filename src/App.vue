@@ -523,8 +523,10 @@ function moveBtnTo(clientX) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  padding: 30px 0 30px 2%;
+  /* dempet: tiga kata menempel satu sama lain, dipusatkan vertikal */
+  justify-content: center;
+  gap: 0;
+  padding: 0 0 0 2%;
 }
 
 .bg-word {
@@ -533,7 +535,7 @@ function moveBtnTo(clientX) {
   font-size: clamp(4rem, 17vw, 15rem);
   font-weight: 500;
   letter-spacing: -0.05em;
-  line-height: 0.92;
+  line-height: 0.82;
   color: rgb(243, 243, 246);
   white-space: nowrap;
   user-select: none;
@@ -601,7 +603,7 @@ function moveBtnTo(clientX) {
   filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.18));
 }
 
-/* ===== baris bawah hero: judul kiri, highlight kanan ===== */
+/* ===== baris bawah hero: judul mentok KIRI, highlight mentok KANAN ===== */
 .hero-bottom {
   display: flex;
   align-items: center;
@@ -610,6 +612,12 @@ function moveBtnTo(clientX) {
   margin-top: 30px;
   position: relative;
   z-index: 1;
+  /* lebar penuh layar (bukan lebar container) supaya benar-benar
+     menempel ke tepi kiri & kanan viewport */
+  width: 100%;
+  max-width: none;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 /* highlights kanan — semua item satu template horizontal */
@@ -1084,16 +1092,17 @@ function moveBtnTo(clientX) {
     display: contents;
   }
 
-  /* watermark: di paling KIRI, disebar vertikal; ukuran lebih kecil dari desktop
-     tapi tetap besar, supaya tidak menutupi konten */
+  /* watermark: dempet, dipusatkan vertikal, di paling kiri */
   .hero-bgtext {
     align-items: flex-start;
-    justify-content: space-between;
-    padding: 20px 0 20px 8px;
+    justify-content: center;
+    gap: 0;
+    padding: 0 0 0 8px;
   }
 
   .bg-word {
     font-size: clamp(2.6rem, 11vw, 4.5rem);
+    line-height: 0.82;
   }
 
   .hero-bio {
@@ -1115,23 +1124,24 @@ function moveBtnTo(clientX) {
     width: 92%;
   }
 
-  /* baris bawah: tumpuk vertikal, judul lalu highlight */
+  /* baris bawah: tumpuk vertikal, judul rata kiri, highlight penuh lebar */
   .hero-bottom {
     flex-direction: column;
-    align-items: center;
-    gap: 26px;
-    margin-top: 34px;
+    align-items: flex-start;
+    gap: 22px;
+    margin-top: 30px;
   }
 
   .marquee-title {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .hero-highlights {
     order: 3;
     flex-direction: row;
-    justify-content: center;
-    gap: 32px;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
