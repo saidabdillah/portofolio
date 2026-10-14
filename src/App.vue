@@ -28,13 +28,24 @@ const techStack = [
 // highlight di bawah foto
 const highlights = [
   { top: '11', label: 'Teknologi<br />dikuasai' },
-  { icon: 'globe', label: 'Web &<br />Mobile-Ready' },
+  { icon: 'globe', label: 'Web' },
   { icon: 'spark', label: 'Full-Stack<br />Developer' },
 ]
 
+// marquee ticker: nama + detail seperti "Succinct $55M Series A" di blunar
+const marqueeItems = [
+  { name: 'Laravel', detail: 'Backend Framework' },
+  { name: 'Vue.js', detail: 'Frontend Framework' },
+  { name: 'TypeScript', detail: 'Programming Language' },
+  { name: 'Next.js', detail: 'Full-Stack Framework' },
+  { name: 'MySQL', detail: 'SQL Database' },
+  { name: 'PostgreSQL', detail: 'SQL Database' },
+  { name: 'MongoDB', detail: 'NoSQL Database' },
+]
+
 const kontakItems = [
-  { label: 'Email', value: 'msaidabdillah18@gmail.com', href: 'mailto:msaidabdillah18@gmail.com' },
-  { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
+  { label: 'Email', value: 'msaidabdillah18@gmail.com', href: 'mailto:msaidabdillah18@gmail.com', external: false },
+  { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247', external: true },
 ]
 
 const sosmed = [
@@ -138,6 +149,31 @@ const sosmed = [
           </div>
         </motion.div>
       </div>
+
+      <!-- marquee ticker: "My clients recently raised" ala blunar -->
+      <motion.p
+        class="marquee-title"
+        :initial="{ opacity: 0 }"
+        :animate="{ opacity: 1 }"
+        :transition="{ duration: 0.6, delay: 0.85 }"
+      >
+        ✳ Tech stack yang saya kuasai:
+      </motion.p>
+      <motion.div
+        class="marquee"
+        :initial="{ opacity: 0 }"
+        :animate="{ opacity: 1 }"
+        :transition="{ duration: 0.8, delay: 0.9 }"
+      >
+        <div class="marquee-track">
+          <template v-for="n in 3" :key="n">
+            <span v-for="item in marqueeItems" :key="item + n" class="marquee-item display">
+              {{ item.name }} <span class="marquee-accent">{{ item.detail }}</span>
+              <span class="marquee-sep">·</span>
+            </span>
+          </template>
+        </div>
+      </motion.div>
     </section>
 
     <!-- ===== /TENTANG ===== -->
@@ -272,6 +308,8 @@ const sosmed = [
             :key="item.label"
             :href="item.href"
             class="kontak-row"
+            :target="item.external ? '_blank' : undefined"
+            :rel="item.external ? 'noopener noreferrer' : undefined"
             :initial="{ opacity: 0, y: 16 }"
             :whileInView="{ opacity: 1, y: 0 }"
             :inViewOptions="{ once: true, amount: 0.5 }"
@@ -618,6 +656,47 @@ const sosmed = [
 .kontak-row:hover .kontak-arrow {
   transform: translateX(4px);
   color: var(--ink);
+}
+
+/* ===== MARQUEE TICKER ===== */
+.marquee-title {
+  color: var(--gray);
+  font-size: 0.9rem;
+  padding: 0 3%;
+  margin-bottom: 4px;
+}
+
+.marquee {
+  overflow: hidden;
+  background: var(--soft);
+  padding: 14px 0;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-item {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.marquee-accent {
+  color: var(--gray);
+  font-weight: 400;
+}
+
+.marquee-sep {
+  color: var(--gray);
+  padding: 0 14px;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
 }
 
 /* ===== SOSMED ===== */
