@@ -92,66 +92,96 @@ const kontakItems = [
       </div>
     </section>
 
-    <!-- ===== HERO: nama besar + avatar + badge + deskripsi + stats ===== -->
+    <!-- ===== HERO: nama+tagline kiri, badge kanan, bio, foto oval kapsul, 3 highlight ===== -->
     <section class="hero">
       <div class="container">
-        <div class="hero-row">
-          <motion.h1
-            class="hero-name display"
-            :initial="{ opacity: 0, y: 40 }"
-            :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.8, delay: 0.1, ease: 'easeOut' }"
-          >
-            Said Abdillah
-          </motion.h1>
+        <motion.div
+          class="hero-top"
+          :initial="{ opacity: 0, y: 18 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.55 }"
+        >
+          <div class="hero-id">
+            <h1 class="hero-name display">Said Abdillah</h1>
+            <p class="hero-tagline">Web x Laravel x Vue</p>
+          </div>
+          <span class="badge-dot">Available for work</span>
+        </motion.div>
 
+        <motion.p
+          class="hero-bio"
+          :initial="{ opacity: 0, y: 18 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.6, delay: 0.15 }"
+        >
+          Saya web developer yang membangun website &amp; aplikasi web modern,
+          responsif, dan fungsional — dari backend Laravel hingga frontend Vue.js,
+          satu prototype demi satu produk nyata.
+        </motion.p>
+
+        <!-- foto dalam oval kapsul gradien pastel, seperti blunar -->
+        <motion.div
+          class="hero-photo-oval"
+          :initial="{ opacity: 0, y: 40, scale: 0.96 }"
+          :animate="{ opacity: 1, y: 0, scale: 1 }"
+          :transition="{ type: 'spring', stiffness: 180, damping: 20, delay: 0.3 }"
+        >
           <motion.img
             :src="fotoSaid"
             alt="Foto Said Abdillah"
-            class="hero-avatar"
-            :initial="{ opacity: 0, scale: 0.4, rotate: -10 }"
-            :animate="{ opacity: 1, scale: 1, rotate: 0 }"
-            :transition="{ type: 'spring', stiffness: 240, damping: 16, delay: 0.4 }"
+            class="hero-photo"
+            :initial="{ opacity: 0, scale: 1.15, y: 24 }"
+            :animate="{ opacity: 1, scale: 1, y: 0 }"
+            :transition="{ type: 'spring', stiffness: 140, damping: 18, delay: 0.55 }"
           />
-        </div>
+        </motion.div>
 
+        <!-- 3 highlight: angka + 2 ikon line-art -->
         <motion.div
-          class="hero-below"
-          :initial="{ opacity: 0, y: 20 }"
+          class="hero-highlights"
+          :initial="{ opacity: 0, y: 24 }"
           :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6, delay: 0.5 }"
+          :transition="{ duration: 0.6, delay: 0.65 }"
         >
-          <span class="badge-dot">Available for work</span>
-
-          <p class="hero-desc">
-            Web developer yang membangun website &amp; aplikasi web modern,
-            responsif, dan fungsional — dari backend Laravel hingga frontend Vue.js,
-            satu prototype demi satu produk nyata.
-          </p>
-
-          <div class="hero-stats">
-            <div class="stat">
-              <span class="stat-number display">16</span>
-              <span class="stat-label">Teknologi<br />dikuasai</span>
-            </div>
-            <div class="stat">
-              <span class="stat-number display">Full-Stack</span>
-              <span class="stat-label">Backend &amp;<br />Frontend</span>
-            </div>
-            <div class="stat">
-              <span class="stat-number display">100%</span>
-              <span class="stat-label">Semangat<br />belajar</span>
-            </div>
+          <div class="hl">
+            <span class="hl-top display">16</span>
+            <span class="hl-label">Teknologi<br />dikuasai</span>
+          </div>
+          <div class="hl">
+            <svg class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+              <circle cx="20" cy="20" r="13" />
+              <ellipse cx="20" cy="20" rx="6" ry="13" />
+              <line x1="7" y1="20" x2="33" y2="20" />
+            </svg>
+            <span class="hl-label">Laravel &amp;<br />Vue.js</span>
+          </div>
+          <div class="hl">
+            <svg class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+              <line x1="20" y1="6" x2="20" y2="34" />
+              <line x1="6" y1="20" x2="34" y2="20" />
+              <line x1="10" y1="10" x2="30" y2="30" />
+              <line x1="30" y1="10" x2="10" y2="30" />
+              <circle cx="20" cy="20" r="5" />
+            </svg>
+            <span class="hl-label">Full-Stack<br />Developer</span>
           </div>
         </motion.div>
       </div>
 
       <!-- marquee -->
+      <motion.p
+        class="marquee-title"
+        :initial="{ opacity: 0 }"
+        :animate="{ opacity: 1 }"
+        :transition="{ duration: 0.6, delay: 0.85 }"
+      >
+        ❋ Tech stack yang saya kuasai:
+      </motion.p>
       <motion.div
         class="marquee"
         :initial="{ opacity: 0 }"
         :animate="{ opacity: 1 }"
-        :transition="{ duration: 0.8, delay: 0.8 }"
+        :transition="{ duration: 0.8, delay: 0.9 }"
       >
         <div class="marquee-track">
           <template v-for="n in 3" :key="n">
@@ -514,78 +544,123 @@ const kontakItems = [
 
 /* ===== HERO ===== */
 .hero {
-  padding: 80px 0 0;
+  padding: 48px 0 0;
+  position: relative;
 }
 
-.hero-row {
+/* latar grid blueprint halus seperti blunar */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* baris atas: nama+tagline kiri, badge kanan */
+.hero-top {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .hero-name {
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(3.6rem, 12vw, 10rem);
-  line-height: 0.95;
-  font-weight: 500;
-  letter-spacing: -0.05em;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
-/* foto transparan bulat sempurna, wajah fokus di atas */
-.hero-avatar {
-  width: clamp(76px, 10vw, 120px);
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: 50%;
-  margin-top: 14px;
+.hero-tagline {
+  color: var(--gray);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  margin-top: 4px;
 }
 
-.hero-below {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 26px;
-}
-
-.hero-desc {
+/* bio */
+.hero-bio {
   color: var(--ink);
-  max-width: 520px;
-  font-size: 1.05rem;
-  line-height: 1.55;
+  max-width: 560px;
+  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+  line-height: 1.5;
+  margin-top: 28px;
 }
 
-.hero-stats {
+/* foto dalam OVAL KAPSUL gradien pastel — focal point seperti blunar */
+.hero-photo-oval {
+  width: min(320px, 68vw);
+  margin: 44px auto 0;
+  aspect-ratio: 3 / 4;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #fbd3e6 0%, #fde8dd 55%, #fdf6ee 100%);
   display: flex;
-  gap: 56px;
-  flex-wrap: wrap;
-  margin-top: 8px;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(251, 190, 216, 0.35);
 }
 
-.stat-number {
+.hero-photo {
+  width: 86%;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.12));
+}
+
+/* ===== 3 HIGHLIGHT ===== */
+.hero-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+  padding-bottom: 48px;
+}
+
+.hl-top {
   display: block;
-  font-size: 40px;
+  font-size: clamp(2rem, 5vw, 2.6rem);
   font-weight: 300;
-  line-height: 1.05;
+  line-height: 1;
   letter-spacing: -0.03em;
 }
 
-.stat-label {
-  color: var(--gray);
-  font-size: 12px;
-  margin-top: 6px;
+.hl-icon {
+  width: clamp(32px, 6vw, 42px);
+  height: auto;
+  color: var(--ink);
+}
+
+.hl-label {
   display: inline-block;
-  line-height: 1.4;
+  margin-top: 10px;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  line-height: 1.35;
 }
 
 /* marquee */
+.marquee-title {
+  color: var(--gray);
+  font-size: 0.9rem;
+  padding: 0 3%;
+  margin-bottom: 4px;
+}
+
 .marquee {
   overflow: hidden;
-  border-top: 1px solid var(--line);
-  margin-top: 56px;
-  padding: 16px 0;
+  background: var(--soft);
+  padding: 14px 0;
   white-space: nowrap;
 }
 
@@ -885,11 +960,7 @@ const kontakItems = [
   }
 
   .hero {
-    padding-top: 52px;
-  }
-
-  .hero-stats {
-    gap: 32px;
+    padding-top: 32px;
   }
 
   .section {
