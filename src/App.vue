@@ -624,16 +624,17 @@ function moveBtnTo(clientX) {
 }
 
 /* foto cutout: lebar & tinggi eksplisit + margin auto supaya benar-benar
-   di tengah (transform dipakai Motion untuk animasi, jangan diutak-atik),
-   diberi jarak bawah supaya dagu tidak berada tepat di dasar kapsul */
+   di tengah (transform dipakai Motion untuk animasi, jangan diutak-atik).
+   Digeser turun melewati dasar kapsul supaya potongan bahu tersembunyi
+   oleh tepi kapsul, bukan terlihat sebagai garis lurus. */
 .hero-photo {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 12%;
+  bottom: -8%;
   margin: 0 auto;
   width: 92%;
-  height: 78%;
+  height: 97%;
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.18));
