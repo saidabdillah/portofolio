@@ -1080,10 +1080,16 @@ function moveBtnTo(clientX) {
     display: contents;
   }
 
-  /* watermark: 3 kata dipusatkan vertikal, tepat di belakang foto */
+  /* watermark: kata-kata di paling KIRI dan disebar vertikal,
+     supaya muncul di sela atas/bawah kapsul foto */
   .hero-bgtext {
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 26px 0 26px 10px;
+  }
+
+  .bg-word {
+    font-size: clamp(2.4rem, 10vw, 4rem);
   }
 
   .hero-bio {
@@ -1092,20 +1098,18 @@ function moveBtnTo(clientX) {
     text-align: center;
   }
 
-  /* di mobile kapsul dibuat transparan agar tulisan watermark
-     di belakang foto tetap terlihat menembus area transparan */
+  /* kapsul tetap dipakai (gradien + shadow), digeser ke kanan
+     agar tepi kiri watermark tetap terlihat */
   .hero-photo-oval {
     order: 2;
-    width: min(300px, 68vw);
+    width: min(290px, 66vw);
     max-height: none;
-    background: transparent;
-    box-shadow: none;
-    overflow: visible;
+    margin-left: auto;
+    margin-right: 0;
   }
 
   .hero-photo {
-    width: 100%;
-    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.22));
+    width: 92%;
   }
 
   /* baris bawah: tumpuk vertikal, judul lalu highlight */
