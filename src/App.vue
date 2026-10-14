@@ -2,6 +2,7 @@
 import { motion } from 'motion-v'
 import { useScroll, useTransform } from 'motion-v'
 import fotoSaid from './assets/foto-said.png'
+import fotoMalam from './assets/foto-malam.jpg'
 
 const { scrollY } = useScroll()
 const bgTextX = useTransform(scrollY, [0, 1200], [0, -160])
@@ -158,8 +159,8 @@ function moveBtnTo(clientX) {
           :transition="{ type: 'spring', stiffness: 160, damping: 20, delay: 0.3 }"
         >
           <motion.img
-            :src="fotoSaid"
-            alt="Foto Said Abdillah"
+            :src="fotoMalam"
+            alt="Foto malam — Said Abdillah"
             class="hero-photo"
             :initial="{ opacity: 0, scale: 1.15, y: 30 }"
             :animate="{ opacity: 1, scale: 1, y: 0 }"
@@ -356,7 +357,7 @@ function moveBtnTo(clientX) {
             :style="{ left: btnLeft }"
             aria-hidden="true"
           >
-            <span class="kontak-pill-arrow">→</span>
+            <span class="kontak-pill-arrow" :class="{ flip: atRight }">→</span>
           </span>
           <span class="kontak-pill-copy">
             <template v-if="atRight">
@@ -526,14 +527,34 @@ function moveBtnTo(clientX) {
   z-index: 1;
   width: min(1100px, 92%);
   margin: 0 auto;
-  /* GRID: bio kiri, foto tengah, highlights kanan — 3 kolom sejajar */
+  /* GRID eksplisit: foto kiri, bio kanan atas, highlight kanan bawah */
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 32px;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px 40px;
   align-items: center;
 }
 
-/* bio kiri */
+/* foto di kolom kiri, bio di kolom kanan, highlight di bawah bio kanan */
+.hero-photo-oval {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.hero-bio {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  text-align: right;
+}
+
+.hero-highlights {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+}
+
+/* bio max width & font tetap diatur di sini (setelah order) */
 .hero-bio {
   max-width: 300px;
   font-size: clamp(0.92rem, 1.8vw, 1rem);
@@ -551,21 +572,20 @@ function moveBtnTo(clientX) {
   width: min(360px, 60vw);
   aspect-ratio: 3 / 4;
   border-radius: 999px;
-  background: linear-gradient(160deg, #fbd3e6 0%, #fde8dd 55%, #fdf6ee 100%);
+  background: linear-gradient(165deg, #9fc2ef 0%, #bcd6f2 55%, #e3effc 100%);
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 24px 70px rgba(251, 190, 216, 0.4);
+  box-shadow: 0 24px 70px rgba(96, 138, 200, 0.35);
   justify-self: center;
 }
 
 .hero-photo {
-  width: 88%;
-  height: auto;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.13));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* highlights kanan — semua item satu template horizontal */
@@ -1020,7 +1040,8 @@ function moveBtnTo(clientX) {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 980px) {
-  /* tablet & mobile: hero jadi satu kolom, urutan bio → foto → highlights */
+  /* tablet & mobile: hero satu kolom — bio → foto → highlights, semua center.
+     Watermark (bgtext) diposisikan tepat di belakang foto. */
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -1028,15 +1049,34 @@ function moveBtnTo(clientX) {
     text-align: center;
   }
 
+  /* reset penempatan grid desktop */
+  .hero-photo-oval,
+  .hero-bio,
+  .hero-highlights {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  /* watermark tepat di belakang foto (foto = item ke-2, kira-kira 25% ke bawah) */
+  .hero-bgtext {
+    top: 22%;
+    align-items: center;
+  }
+
   .hero-bio {
+    order: 1;
     max-width: 480px;
+    justify-self: center;
+    text-align: center;
   }
 
   .hero-photo-oval {
+    order: 2;
     width: min(320px, 72vw);
   }
 
   .hero-highlights {
+    order: 3;
     flex-direction: row;
     justify-content: center;
     gap: 40px;
