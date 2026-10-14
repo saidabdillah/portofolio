@@ -1,7 +1,7 @@
 <script setup>
 import { motion } from 'motion-v'
 import { useScroll, useTransform } from 'motion-v'
-import fotoMalam from './assets/foto-malam.jpg'
+import fotoSaid from './assets/foto-said.png'
 
 const { scrollY } = useScroll()
 const bgTextX = useTransform(scrollY, [0, 1200], [0, -160])
@@ -65,9 +65,9 @@ let pillRect = null
 
 function pillDown(e) {
   e.currentTarget.setPointerCapture?.(e.pointerId)
-  pillRect = e.currentTarget.getBoundingClientRect()
+  // ukur pill (parent), bukan tombol — tombol yang bergerak
+  pillRect = e.currentTarget.parentElement.getBoundingClientRect()
   isDragging.value = true
-  // mulai dari posisi lingkaran sekarang
   moveBtnTo(e.clientX)
 }
 
@@ -137,7 +137,7 @@ function moveBtnTo(clientX) {
       </div>
 
       <div class="container hero-inner">
-        <!-- kolom kiri: foto dalam kapsul -->
+        <!-- kolom kiri: foto cutout di dalam kapsul -->
         <motion.div
           class="hero-photo-oval"
           :style="{ y: photoY }"
@@ -146,8 +146,8 @@ function moveBtnTo(clientX) {
           :transition="{ type: 'spring', stiffness: 160, damping: 20, delay: 0.3 }"
         >
           <motion.img
-            :src="fotoMalam"
-            alt="Foto malam — Said Abdillah"
+            :src="fotoSaid"
+            alt="Foto Said Abdillah"
             class="hero-photo"
             :initial="{ opacity: 0, scale: 1.15, y: 30 }"
             :animate="{ opacity: 1, scale: 1, y: 0 }"
@@ -155,7 +155,7 @@ function moveBtnTo(clientX) {
           />
         </motion.div>
 
-        <!-- kolom kanan: bio di atas, highlight di bawahnya -->
+        <!-- kolom kanan: bio -->
         <div class="hero-right">
           <motion.p
             class="hero-bio"
@@ -163,48 +163,64 @@ function moveBtnTo(clientX) {
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ duration: 0.6, delay: 0.1 }"
           >
-            <span class="bio-mark">✳</span>
+            <svg class="spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <line x1="20" y1="5" x2="20" y2="35" />
+              <line x1="5" y1="20" x2="35" y2="20" />
+              <line x1="9.5" y1="9.5" x2="30.5" y2="30.5" />
+              <line x1="30.5" y1="9.5" x2="9.5" y2="30.5" />
+              <circle cx="20" cy="20" r="5.5" />
+            </svg>
             Saya web developer yang membangun aplikasi web modern — antarmuka
             interaktif, sistem backend, hingga pengelolaan database.
           </motion.p>
-
-          <motion.div
-            class="hero-highlights"
-            :initial="{ opacity: 0, y: 24 }"
-            :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.6, delay: 0.7 }"
-          >
-            <div v-for="h in highlights" :key="h.label" class="hl">
-              <span class="hl-lead">
-                <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
-                <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-                  <circle cx="20" cy="20" r="13" />
-                  <ellipse cx="20" cy="20" rx="6" ry="13" />
-                  <line x1="7" y1="20" x2="33" y2="20" />
-                </svg>
-                <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-                  <line x1="20" y1="6" x2="20" y2="34" />
-                  <line x1="6" y1="20" x2="34" y2="20" />
-                  <line x1="10" y1="10" x2="30" y2="30" />
-                  <line x1="30" y1="10" x2="10" y2="30" />
-                  <circle cx="20" cy="20" r="5" />
-                </svg>
-              </span>
-              <span class="hl-label" v-html="h.label" />
-            </div>
-          </motion.div>
         </div>
       </div>
 
-      <!-- marquee ticker: "My clients recently raised" ala blunar -->
-      <motion.p
-        class="marquee-title"
-        :initial="{ opacity: 0 }"
-        :animate="{ opacity: 1 }"
-        :transition="{ duration: 0.6, delay: 0.85 }"
-      >
-        ✳ Tech stack yang saya kuasai:
-      </motion.p>
+      <!-- baris bawah: judul tech stack di kiri, highlight di paling kanan -->
+      <div class="container hero-bottom">
+        <motion.p
+          class="marquee-title"
+          :initial="{ opacity: 0 }"
+          :animate="{ opacity: 1 }"
+          :transition="{ duration: 0.6, delay: 0.85 }"
+        >
+          <svg class="spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <line x1="20" y1="5" x2="20" y2="35" />
+            <line x1="5" y1="20" x2="35" y2="20" />
+            <line x1="9.5" y1="9.5" x2="30.5" y2="30.5" />
+            <line x1="30.5" y1="9.5" x2="9.5" y2="30.5" />
+            <circle cx="20" cy="20" r="5.5" />
+          </svg>
+          Tech stack yang saya kuasai:
+        </motion.p>
+
+        <motion.div
+          class="hero-highlights"
+          :initial="{ opacity: 0, y: 24 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.6, delay: 0.7 }"
+        >
+          <div v-for="h in highlights" :key="h.label" class="hl">
+            <span class="hl-lead">
+              <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
+              <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+                <circle cx="20" cy="20" r="13" />
+                <ellipse cx="20" cy="20" rx="6" ry="13" />
+                <line x1="7" y1="20" x2="33" y2="20" />
+              </svg>
+              <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+                <line x1="20" y1="6" x2="20" y2="34" />
+                <line x1="6" y1="20" x2="34" y2="20" />
+                <line x1="10" y1="10" x2="30" y2="30" />
+                <line x1="30" y1="10" x2="10" y2="30" />
+                <circle cx="20" cy="20" r="5" />
+              </svg>
+            </span>
+            <span class="hl-label" v-html="h.label" />
+          </div>
+        </motion.div>
+      </div>
+
       <motion.div
         class="marquee"
         :initial="{ opacity: 0 }"
@@ -338,7 +354,7 @@ function moveBtnTo(clientX) {
           </motion.span>
         </div>
 
-        <!-- pill slider: lingkaran oranye digeser kanan = tampil email & kirim; kiri = teks ajakan -->
+        <!-- pill slider: geser TOMBOL (bukan seluruh pill) agar teks email tetap bisa diklik -->
         <motion.div
           class="kontak-pill"
           :class="{ revealed: emailRevealed }"
@@ -346,16 +362,15 @@ function moveBtnTo(clientX) {
           :whileInView="{ opacity: 1, y: 0, scale: 1 }"
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.15 }"
-          @pointerdown="pillDown"
-          @pointermove="pillMove"
-          @pointerup="pillUp"
-          @pointercancel="pillUp"
         >
           <span
             class="kontak-pill-btn"
             :class="{ dragging: isDragging, atRight: atRight }"
             :style="{ left: btnLeft }"
-            aria-hidden="true"
+            @pointerdown="pillDown"
+            @pointermove="pillMove"
+            @pointerup="pillUp"
+            @pointercancel="pillUp"
           >
             <span class="kontak-pill-arrow" :class="{ flip: atRight }">→</span>
           </span>
@@ -366,7 +381,7 @@ function moveBtnTo(clientX) {
             </template>
             <template v-else>
               <span class="kontak-pill-title display">Hubungi saya</span>
-              <span class="kontak-pill-sub">Kirim email — saya balas secepatnya</span>
+              <span class="kontak-pill-sub">Geser panah ke kanan untuk melihat email</span>
             </template>
           </span>
         </motion.div>
@@ -534,12 +549,11 @@ function moveBtnTo(clientX) {
   align-items: center;
 }
 
-/* kolom kanan: bio di atas, highlight di bawah, semua rata kanan */
+/* kolom kanan: bio */
 .hero-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 40px;
   text-align: right;
 }
 
@@ -551,9 +565,14 @@ function moveBtnTo(clientX) {
   color: var(--ink);
 }
 
-.bio-mark {
-  color: #f59e0b;
-  margin-right: 6px;
+/* ikon spark hitam (pengganti karakter ✳) */
+.spark {
+  width: 15px;
+  height: 15px;
+  color: var(--ink);
+  vertical-align: -2px;
+  margin-right: 7px;
+  flex-shrink: 0;
 }
 
 /* foto oval kapsul di kiri */
@@ -564,17 +583,29 @@ function moveBtnTo(clientX) {
   border-radius: 999px;
   background: linear-gradient(165deg, #9fc2ef 0%, #bcd6f2 55%, #e3effc 100%);
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
   justify-content: center;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(96, 138, 200, 0.35);
 }
 
 .hero-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  width: 92%;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.18));
+}
+
+/* ===== baris bawah hero: judul kiri, highlight kanan ===== */
+.hero-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 44px;
+  position: relative;
+  z-index: 1;
 }
 
 /* highlights kanan — semua item satu template horizontal */
@@ -736,9 +767,6 @@ function moveBtnTo(clientX) {
   border: 1px solid var(--line);
   border-radius: 999px;
   background: #fff;
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
   text-align: left;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -767,6 +795,8 @@ function moveBtnTo(clientX) {
   justify-content: center;
   font-size: 1.3rem;
   cursor: grab;
+  touch-action: none;
+  user-select: none;
   /* snap halus saat dilepas */
   transition: left 0.3s cubic-bezier(0.34, 1.3, 0.64, 1), transform 0.25s ease;
 }
@@ -897,12 +927,12 @@ function moveBtnTo(clientX) {
 
 /* ===== MARQUEE TICKER ===== */
 .marquee-title {
+  display: inline-flex;
+  align-items: center;
   color: var(--gray);
   font-size: 0.9rem;
-  padding: 0 3%;
-  margin: 44px 0 8px;
-  position: relative;
-  z-index: 1;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .marquee {
@@ -912,6 +942,7 @@ function moveBtnTo(clientX) {
   white-space: nowrap;
   position: relative;
   z-index: 1;
+  margin-top: 28px;
   /* fade halus di kedua tepi */
   mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
@@ -1049,7 +1080,7 @@ function moveBtnTo(clientX) {
     display: contents;
   }
 
-  /* watermark tepat di belakang foto: 3 kata dipusatkan vertikal di hero */
+  /* watermark: 3 kata dipusatkan vertikal, tepat di belakang foto */
   .hero-bgtext {
     align-items: center;
     justify-content: center;
@@ -1061,17 +1092,39 @@ function moveBtnTo(clientX) {
     text-align: center;
   }
 
+  /* di mobile kapsul dibuat transparan agar tulisan watermark
+     di belakang foto tetap terlihat menembus area transparan */
   .hero-photo-oval {
     order: 2;
     width: min(300px, 68vw);
     max-height: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .hero-photo {
+    width: 100%;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.22));
+  }
+
+  /* baris bawah: tumpuk vertikal, judul lalu highlight */
+  .hero-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    margin-top: 34px;
+  }
+
+  .marquee-title {
+    justify-content: center;
   }
 
   .hero-highlights {
     order: 3;
     flex-direction: row;
     justify-content: center;
-    gap: 40px;
+    gap: 32px;
     flex-wrap: wrap;
   }
 
