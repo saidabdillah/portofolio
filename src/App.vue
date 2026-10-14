@@ -523,16 +523,18 @@ function moveBtnTo(clientX) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
+  padding: 30px 0 30px 2%;
 }
 
 .bg-word {
   display: block;
   font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(3.4rem, 12.5vw, 12.5rem);
+  font-size: clamp(4rem, 17vw, 15rem);
   font-weight: 500;
   letter-spacing: -0.05em;
-  line-height: 1.02;
-  color: rgb(247, 247, 249);
+  line-height: 0.92;
+  color: rgb(243, 243, 246);
   white-space: nowrap;
   user-select: none;
 }
@@ -542,15 +544,16 @@ function moveBtnTo(clientX) {
   z-index: 1;
   width: min(1100px, 92%);
   margin: 0 auto;
-  /* 2 kolom: foto kiri | (bio + highlight) kanan */
+  /* 3 kolom: ruang kiri | foto TENGAH | bio kanan */
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto 1fr;
   gap: 48px;
   align-items: center;
 }
 
 /* kolom kanan: bio */
 .hero-right {
+  grid-column: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -575,10 +578,11 @@ function moveBtnTo(clientX) {
   flex-shrink: 0;
 }
 
-/* foto oval kapsul di kiri */
+/* foto oval kapsul di TENGAH */
 .hero-photo-oval {
+  grid-column: 2;
   width: min(340px, 34vw);
-  max-height: 50vh;
+  max-height: 52vh;
   aspect-ratio: 3 / 4;
   border-radius: 999px;
   background: linear-gradient(165deg, #9fc2ef 0%, #bcd6f2 55%, #e3effc 100%);
@@ -1080,16 +1084,16 @@ function moveBtnTo(clientX) {
     display: contents;
   }
 
-  /* watermark: kata-kata di paling KIRI dan disebar vertikal,
-     supaya muncul di sela atas/bawah kapsul foto */
+  /* watermark: di paling KIRI, disebar vertikal; ukuran lebih kecil dari desktop
+     tapi tetap besar, supaya tidak menutupi konten */
   .hero-bgtext {
     align-items: flex-start;
     justify-content: space-between;
-    padding: 26px 0 26px 10px;
+    padding: 20px 0 20px 8px;
   }
 
   .bg-word {
-    font-size: clamp(2.4rem, 10vw, 4rem);
+    font-size: clamp(2.6rem, 11vw, 4.5rem);
   }
 
   .hero-bio {
@@ -1098,14 +1102,13 @@ function moveBtnTo(clientX) {
     text-align: center;
   }
 
-  /* kapsul tetap dipakai (gradien + shadow), digeser ke kanan
-     agar tepi kiri watermark tetap terlihat */
+  /* kapsul tetap dipakai (gradien + shadow), foto di TENGAH */
   .hero-photo-oval {
+    grid-column: auto;
     order: 2;
-    width: min(290px, 66vw);
+    width: min(300px, 68vw);
     max-height: none;
-    margin-left: auto;
-    margin-right: 0;
+    margin: 0 auto;
   }
 
   .hero-photo {
