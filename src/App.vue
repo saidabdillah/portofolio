@@ -176,24 +176,8 @@ function moveBtnTo(clientX) {
         </div>
       </div>
 
-      <!-- baris bawah: judul tech stack di kiri, highlight di paling kanan -->
+      <!-- baris bawah hero: highlight di atas, judul tech stack di bawahnya -->
       <div class="container hero-bottom">
-        <motion.p
-          class="marquee-title"
-          :initial="{ opacity: 0 }"
-          :animate="{ opacity: 1 }"
-          :transition="{ duration: 0.6, delay: 0.85 }"
-        >
-          <svg class="spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-            <line x1="20" y1="5" x2="20" y2="35" />
-            <line x1="5" y1="20" x2="35" y2="20" />
-            <line x1="9.5" y1="9.5" x2="30.5" y2="30.5" />
-            <line x1="30.5" y1="9.5" x2="9.5" y2="30.5" />
-            <circle cx="20" cy="20" r="5.5" />
-          </svg>
-          Tech stack yang saya kuasai:
-        </motion.p>
-
         <motion.div
           class="hero-highlights"
           :initial="{ opacity: 0, y: 24 }"
@@ -219,6 +203,22 @@ function moveBtnTo(clientX) {
             <span class="hl-label" v-html="h.label" />
           </div>
         </motion.div>
+
+        <motion.p
+          class="marquee-title"
+          :initial="{ opacity: 0 }"
+          :animate="{ opacity: 1 }"
+          :transition="{ duration: 0.6, delay: 0.85 }"
+        >
+          <svg class="spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <line x1="20" y1="5" x2="20" y2="35" />
+            <line x1="5" y1="20" x2="35" y2="20" />
+            <line x1="9.5" y1="9.5" x2="30.5" y2="30.5" />
+            <line x1="30.5" y1="9.5" x2="9.5" y2="30.5" />
+            <circle cx="20" cy="20" r="5.5" />
+          </svg>
+          Tech stack yang saya kuasai:
+        </motion.p>
       </div>
 
       <motion.div
@@ -258,8 +258,7 @@ function moveBtnTo(clientX) {
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.65 }"
         >
-          Setiap proyek adalah kesempatan untuk meningkatkan kemampuan
-          dan menciptakan solusi digital yang bermanfaat.
+          Muhammad Said Abdillah — Web Developer
         </motion.h2>
 
         <motion.p
@@ -269,12 +268,35 @@ function moveBtnTo(clientX) {
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.12 }"
         >
-          Saya adalah seorang Web Developer yang berfokus pada pengembangan aplikasi
-          web modern, mulai dari membangun antarmuka yang interaktif hingga mengembangkan
-          sistem backend dan mengelola database. Saya juga memiliki ketertarikan pada
-          pengelolaan database relasional maupun non-relasional. Saya senang mempelajari
-          teknologi baru, memecahkan masalah, dan mengeksplorasi pendekatan yang lebih
-          efektif dalam pengembangan perangkat lunak.
+          Saya adalah Web Developer yang berfokus pada pengembangan aplikasi web modern,
+          mulai dari merancang antarmuka yang interaktif dan responsif, membangun sistem
+          backend yang terstruktur, hingga mengelola database relasional maupun
+          non-relasional.
+        </motion.p>
+
+        <motion.p
+          class="section-text"
+          :initial="{ opacity: 0, y: 18 }"
+          :whileInView="{ opacity: 1, y: 0 }"
+          :inViewOptions="{ once: true, amount: 0.4 }"
+          :transition="{ duration: 0.6, delay: 0.2 }"
+        >
+          Saya memiliki ketertarikan pada pengembangan perangkat lunak yang tidak hanya
+          berfungsi dengan baik, tetapi juga dirancang dengan memperhatikan efisiensi,
+          skalabilitas, dan pengalaman pengguna. Dengan terus mengeksplorasi teknologi
+          dan pendekatan baru, saya berupaya menciptakan solusi digital yang relevan,
+          efektif, dan mampu menjawab kebutuhan nyata.
+        </motion.p>
+
+        <motion.p
+          class="section-text"
+          :initial="{ opacity: 0, y: 18 }"
+          :whileInView="{ opacity: 1, y: 0 }"
+          :inViewOptions="{ once: true, amount: 0.4 }"
+          :transition="{ duration: 0.6, delay: 0.28 }"
+        >
+          Bagi saya, setiap proyek merupakan kesempatan untuk mengembangkan kemampuan,
+          memperluas wawasan teknis, dan menghasilkan karya yang memberikan nilai nyata.
         </motion.p>
       </div>
     </section>
@@ -523,10 +545,13 @@ function moveBtnTo(clientX) {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* dempet: tiga kata menempel satu sama lain, dipusatkan vertikal */
+  /* dempet: tiga kata menempel satu sama lain, dinaikkan agar
+     pusatnya sejajar dengan kapsul foto */
   justify-content: center;
   gap: 0;
   padding: 0 0 0 2%;
+  /* digeser naik supaya tepat di tengah kapsul */
+  transform: translateY(-19%);
 }
 
 .bg-word {
@@ -550,7 +575,7 @@ function moveBtnTo(clientX) {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 48px;
-  align-items: center;
+  align-items: start;
 }
 
 /* kolom kanan: bio */
@@ -593,6 +618,8 @@ function moveBtnTo(clientX) {
   justify-content: center;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(96, 138, 200, 0.35);
+  /* dinaikkan ke atas */
+  margin-top: -52px;
 }
 
 .hero-photo {
@@ -603,29 +630,35 @@ function moveBtnTo(clientX) {
   filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.18));
 }
 
-/* ===== baris bawah hero: judul mentok KIRI, highlight mentok KANAN ===== */
+/* ===== baris bawah hero: highlight di atas, judul tech stack di bawahnya ===== */
 .hero-bottom {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  margin-top: 30px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  margin-top: 26px;
   position: relative;
   z-index: 1;
-  /* lebar penuh layar (bukan lebar container) supaya benar-benar
-     menempel ke tepi kiri & kanan viewport */
+  /* lebar penuh layar supaya highlight benar-benar mentok kanan */
   width: 100%;
   max-width: none;
   padding-left: 3%;
   padding-right: 3%;
 }
 
-/* highlights kanan — semua item satu template horizontal */
+/* judul tech stack rata kiri, di bawah highlight */
+.marquee-title {
+  align-self: flex-start;
+}
+
+/* highlights — baris horizontal, mentok KANAN */
 .hero-highlights {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  justify-self: end;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 56px;
+  align-self: flex-end;
+  flex-wrap: wrap;
 }
 
 .hl {
@@ -1098,6 +1131,7 @@ function moveBtnTo(clientX) {
     justify-content: center;
     gap: 0;
     padding: 0 0 0 8px;
+    transform: translateY(-10%);
   }
 
   .bg-word {
@@ -1134,6 +1168,7 @@ function moveBtnTo(clientX) {
 
   .marquee-title {
     justify-content: flex-start;
+    order: 4;
   }
 
   .hero-highlights {
