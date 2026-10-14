@@ -161,7 +161,7 @@ const sosmed = [
           />
         </motion.div>
 
-        <!-- highlights kanan bawah -->
+        <!-- highlights kanan: template seragam horizontal (lead fixed-width + label) -->
         <motion.div
           class="hero-highlights"
           :initial="{ opacity: 0, y: 24 }"
@@ -169,19 +169,21 @@ const sosmed = [
           :transition="{ duration: 0.6, delay: 0.7 }"
         >
           <div v-for="h in highlights" :key="h.label" class="hl">
-            <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
-            <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-              <circle cx="20" cy="20" r="13" />
-              <ellipse cx="20" cy="20" rx="6" ry="13" />
-              <line x1="7" y1="20" x2="33" y2="20" />
-            </svg>
-            <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-              <line x1="20" y1="6" x2="20" y2="34" />
-              <line x1="6" y1="20" x2="34" y2="20" />
-              <line x1="10" y1="10" x2="30" y2="30" />
-              <line x1="30" y1="10" x2="10" y2="30" />
-              <circle cx="20" cy="20" r="5" />
-            </svg>
+            <span class="hl-lead">
+              <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
+              <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+                <circle cx="20" cy="20" r="13" />
+                <ellipse cx="20" cy="20" rx="6" ry="13" />
+                <line x1="7" y1="20" x2="33" y2="20" />
+              </svg>
+              <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+                <line x1="20" y1="6" x2="20" y2="34" />
+                <line x1="6" y1="20" x2="34" y2="20" />
+                <line x1="10" y1="10" x2="30" y2="30" />
+                <line x1="30" y1="10" x2="10" y2="30" />
+                <circle cx="20" cy="20" r="5" />
+              </svg>
+            </span>
             <span class="hl-label" v-html="h.label" />
           </div>
         </motion.div>
@@ -553,16 +555,30 @@ const sosmed = [
   filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.13));
 }
 
-/* highlights kanan — kolom vertikal rapi */
+/* highlights kanan — semua item satu template horizontal */
 .hero-highlights {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 24px;
   justify-self: end;
 }
 
+.hl {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* slot elemen depan (angka/ikon) lebar tetap agar kolom teks sejajar */
+.hl-lead {
+  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+
 .hl-top {
-  display: block;
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   font-weight: 300;
   line-height: 1;
@@ -570,18 +586,14 @@ const sosmed = [
 }
 
 .hl-icon {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   color: var(--ink);
 }
 
-/* highlight "Web" */
 .hl-label {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 0.84rem;
+  font-size: 0.85rem;
   line-height: 1.35;
-  white-space: nowrap;
 }
 
 /* ===== SECTIONS ===== */
