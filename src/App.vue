@@ -790,6 +790,12 @@ function moveBtnTo(clientX) {
 
 .kontak-pill-arrow {
   display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* saat digeser ke kanan, panah menghadap ke kiri (siap kembali) */
+.kontak-pill-arrow.flip {
+  transform: rotate(180deg);
 }
 
 .kontak-pill-copy {
