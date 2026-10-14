@@ -19,28 +19,28 @@ const bgWords = ['DEVELOPER', 'CREATOR', 'BUILDER']
 
 // Tech Stack terstruktur
 const techStack = [
-  { group: 'Programming Languages', items: ['PHP', 'JavaScript', 'TypeScript'] },
-  { group: 'Frameworks & Libraries', items: ['Laravel', 'Next.js', 'Vue.js', 'React'] },
-  { group: 'SQL Databases', items: ['MySQL', 'PostgreSQL', 'Microsoft SQL Server'] },
-  { group: 'NoSQL Databases', items: ['MongoDB'] },
+  { group: 'Bahasa Pemrograman', items: ['PHP', 'JavaScript', 'TypeScript'] },
+  { group: 'Framework & Library', items: ['Laravel', 'Next.js', 'Vue.js', 'React'] },
+  { group: 'Database SQL', items: ['MySQL', 'PostgreSQL', 'Microsoft SQL Server'] },
+  { group: 'Database NoSQL', items: ['MongoDB'] },
 ]
 
 // highlight di bawah foto
 const highlights = [
   { top: '11', label: 'Teknologi<br />dikuasai' },
   { icon: 'globe', label: 'Web' },
-  { icon: 'spark', label: 'Full-Stack<br />Developer' },
+  { icon: 'spark', label: 'Pengembang<br />Full-Stack' },
 ]
 
 // marquee ticker: nama + detail seperti "Succinct $55M Series A" di blunar
 const marqueeItems = [
-  { name: 'Laravel', detail: 'Backend Framework' },
-  { name: 'Vue.js', detail: 'Frontend Framework' },
-  { name: 'TypeScript', detail: 'Programming Language' },
-  { name: 'Next.js', detail: 'Full-Stack Framework' },
-  { name: 'MySQL', detail: 'SQL Database' },
-  { name: 'PostgreSQL', detail: 'SQL Database' },
-  { name: 'MongoDB', detail: 'NoSQL Database' },
+  { name: 'Laravel', detail: 'Framework Backend' },
+  { name: 'Vue.js', detail: 'Framework Frontend' },
+  { name: 'TypeScript', detail: 'Bahasa Pemrograman' },
+  { name: 'Next.js', detail: 'Framework Full-Stack' },
+  { name: 'MySQL', detail: 'Database SQL' },
+  { name: 'PostgreSQL', detail: 'Database SQL' },
+  { name: 'MongoDB', detail: 'Database NoSQL' },
 ]
 
 const kontakItems = [
@@ -75,7 +75,6 @@ function pillDragEnd() {
 const pillText = computed(() =>
   emailRevealed.value ? 'msaidabdillah18@gmail.com' : 'Geser panah ke kanan untuk lihat email'
 )
-
 function revealEmail() {
   // klik biasa (tanpa drag): toggle
   if (pillShift.value === 'right') {
@@ -109,7 +108,7 @@ const sosmed = [
         </div>
         <nav class="nav-links">
           <a v-for="link in navLinks" :key="link.href" :href="link.href">{{ link.label }}</a>
-          <span class="badge-dot nav-badge">Available for work</span>
+          <span class="badge-dot nav-badge">Terbuka untuk kerja</span>
         </nav>
       </div>
     </motion.header>
@@ -317,7 +316,7 @@ const sosmed = [
             :transition="{ duration: 0.5 }"
           >
             <span class="route-label">/new_project</span>
-            <h2 class="kontak-heading display">Let's build<br />something special</h2>
+            <h2 class="kontak-heading display">Mari wujudkan<br />sesuatu yang istimewa</h2>
           </motion.div>
           <motion.span
             class="badge-dot"
@@ -326,7 +325,7 @@ const sosmed = [
             :inViewOptions="{ once: true }"
             :transition="{ duration: 0.4 }"
           >
-            Available for work
+            Terbuka untuk kerja
           </motion.span>
         </div>
 
@@ -394,7 +393,7 @@ const sosmed = [
           </defs>
           <text class="badge-text">
             <textPath href="#circlePath">
-              OPEN TO WORK · LET'S BUILD SOMETHING NEW · OPEN TO WORK · LET'S BUILD SOMETHING NEW ·
+              SIAP KERJA · MARI WUJUDKAN YANG BARU · SIAP KERJA · MARI WUJUDKAN YANG BARU ·
             </textPath>
           </text>
         </svg>
