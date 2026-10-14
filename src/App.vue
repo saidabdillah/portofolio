@@ -1,59 +1,52 @@
 <script setup>
 import { motion } from 'motion-v'
+import { useScroll, useTransform } from 'motion-v'
 import fotoSaid from './assets/foto-said.png'
+
+const { scrollY } = useScroll()
+const bgTextX = useTransform(scrollY, [0, 1200], [0, -160])
+const photoY = useTransform(scrollY, [0, 800], [0, 50])
 
 // ===== DATA =====
 const navLinks = [
-  { label: '/tentang', href: '#tentang' },
-  { label: '/keahlian', href: '#keahlian' },
-  { label: '/arah', href: '#arah' },
-  { label: '/kontak', href: '#kontak' },
+  { label: 'Tentang', href: '#tentang' },
+  { label: 'Tech Stack', href: '#tech' },
+  { label: 'Kontak', href: '#kontak' },
 ]
 
-// Grid bernomor di PALING ATAS seperti 01-17 klien blunar
-const gridTop = [
-  'PHP', 'Laravel', 'Next.js', 'Vue.js', 'TypeScript', 'JavaScript',
-  'MySQL', 'SQL Server', 'Nginx', 'Linux', 'Git', 'GitHub',
-  'HTML5', 'CSS3', 'Composer', 'npm',
+// teks raksasa di belakang foto
+const bgWords = ['DEVELOPER', 'CREATOR', 'BUILDER']
+
+// Tech Stack terstruktur
+const techStack = [
+  { group: 'Programming Languages', items: ['PHP', 'JavaScript', 'TypeScript'] },
+  { group: 'Frameworks & Libraries', items: ['Laravel', 'Next.js', 'Vue.js', 'React'] },
+  { group: 'SQL Databases', items: ['MySQL', 'PostgreSQL', 'Microsoft SQL Server'] },
+  { group: 'NoSQL Databases', items: ['MongoDB'] },
 ]
 
-// Marquee seperti "My clients recently raised: Succinct $55M..."
-const marqueeItems = [
-  'Laravel 13', 'Vue 3', 'TypeScript', 'Next.js', 'MySQL', 'Nginx',
+// highlight di bawah foto
+const highlights = [
+  { top: '11', label: 'Teknologi<br />dikuasai' },
+  { icon: 'globe', label: 'Web &<br />Mobile-Ready' },
+  { icon: 'spark', label: 'Full-Stack<br />Developer' },
 ]
-
-// A-D seperti /about blunar
-const fokus = [
-  { huruf: 'A', teks: 'Pengembangan Web' },
-  { huruf: 'B', teks: 'Aplikasi Laravel & Vue' },
-  { huruf: 'C', teks: 'Desain Responsif' },
-  { huruf: 'D', teks: 'Server & Deploy' },
-]
-
-// Domain seperti Web3/AI/AR-VR di blunar
-const domains = ['Web', 'Laravel', 'Vue.js', 'Backend & API']
-
-// Weapons of choice
-const weapons = [
-  { label: 'Backend', value: 'PHP · Laravel · Next.js' },
-  { label: 'Frontend', value: 'Vue.js · TypeScript · HTML5/CSS3' },
-  { label: 'Database', value: 'MySQL · SQL Server' },
-  { label: 'Infrastruktur', value: 'Nginx · Linux Ubuntu · Git · GitHub' },
-]
-
-// Kata raksasa abu muda seperti /new_project blunar:
-// transform / redefine / emerge / invent / evolve
-const kataBesar = ['transform', 'membangun', 'berkarya', 'belajar', 'berkembang']
 
 const kontakItems = [
   { label: 'Email', value: 'msaidabdillah18@gmail.com', href: 'mailto:msaidabdillah18@gmail.com' },
   { label: 'WhatsApp', value: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
 ]
+
+const sosmed = [
+  { label: 'Instagram', handle: '@sxidlent', href: 'https://www.instagram.com/sxidlent/' },
+  { label: 'WhatsApp', handle: '+62 857-5264-6247', href: 'https://wa.me/6285752646247' },
+  { label: 'Email', handle: 'msaidabdillah18@gmail.com', href: 'mailto:msaidabdillah18@gmail.com' },
+]
 </script>
 
 <template>
   <div class="page">
-    <!-- ===== NAVBAR: nama kecil + tagline, persis blunar ===== -->
+    <!-- ===== NAVBAR ===== -->
     <motion.header
       class="navbar"
       :initial="{ y: -40, opacity: 0 }"
@@ -63,113 +56,88 @@ const kontakItems = [
       <div class="container navbar-inner">
         <div class="nav-brand">
           <span class="nav-name">Said Abdillah</span>
-          <span class="nav-tagline">Web x Laravel x Vue</span>
+          <span class="nav-tagline">Web Developer</span>
         </div>
         <nav class="nav-links">
           <a v-for="link in navLinks" :key="link.href" :href="link.href">{{ link.label }}</a>
+          <span class="badge-dot nav-badge">Available for work</span>
         </nav>
       </div>
     </motion.header>
 
-    <!-- ===== HERO: nama+tagline kiri, badge kanan, bio, foto oval kapsul, 3 highlight ===== -->
+    <!-- ===== HERO: teks raksasa di belakang + foto oval di tengah ===== -->
     <section class="hero">
-      <div class="container">
-        <motion.div
-          class="hero-top"
-          :initial="{ opacity: 0, y: 18 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.55 }"
+      <!-- teks raksasa layer belakang, parallax saat scroll -->
+      <div class="hero-bgtext" aria-hidden="true">
+        <motion.span
+          v-for="(word, i) in bgWords"
+          :key="word"
+          class="bg-word display"
+          :style="{ x: bgTextX, top: `${16 + i * 30}%` }"
+          :initial="{ opacity: 0 }"
+          :animate="{ opacity: 1 }"
+          :transition="{ duration: 1, delay: 0.2 + i * 0.15 }"
         >
-          <div class="hero-id">
-            <h1 class="hero-name display">Said Abdillah</h1>
-            <p class="hero-tagline">Web x Laravel x Vue</p>
-          </div>
-          <span class="badge-dot">Available for work</span>
-        </motion.div>
+          {{ word }}
+        </motion.span>
+      </div>
 
+      <div class="container hero-inner">
+        <!-- bio kiri atas -->
         <motion.p
           class="hero-bio"
           :initial="{ opacity: 0, y: 18 }"
           :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6, delay: 0.15 }"
+          :transition="{ duration: 0.6, delay: 0.1 }"
         >
-          Saya web developer yang membangun website &amp; aplikasi web modern,
-          responsif, dan fungsional — dari backend Laravel hingga frontend Vue.js,
-          satu prototype demi satu produk nyata.
+          <span class="bio-mark">✳</span>
+          Saya web developer yang membangun aplikasi web modern — antarmuka
+          interaktif, sistem backend, hingga pengelolaan database.
         </motion.p>
 
-        <!-- foto dalam oval kapsul gradien pastel, seperti blunar -->
+        <!-- foto oval kapsul, pusat halaman -->
         <motion.div
           class="hero-photo-oval"
-          :initial="{ opacity: 0, y: 40, scale: 0.96 }"
+          :style="{ y: photoY }"
+          :initial="{ opacity: 0, y: 50, scale: 0.95 }"
           :animate="{ opacity: 1, y: 0, scale: 1 }"
-          :transition="{ type: 'spring', stiffness: 180, damping: 20, delay: 0.3 }"
+          :transition="{ type: 'spring', stiffness: 160, damping: 20, delay: 0.3 }"
         >
           <motion.img
             :src="fotoSaid"
             alt="Foto Said Abdillah"
             class="hero-photo"
-            :initial="{ opacity: 0, scale: 1.15, y: 24 }"
+            :initial="{ opacity: 0, scale: 1.15, y: 30 }"
             :animate="{ opacity: 1, scale: 1, y: 0 }"
-            :transition="{ type: 'spring', stiffness: 140, damping: 18, delay: 0.55 }"
+            :transition="{ type: 'spring', stiffness: 130, damping: 18, delay: 0.55 }"
           />
         </motion.div>
 
-        <!-- 3 highlight: angka + 2 ikon line-art -->
+        <!-- highlights kanan bawah -->
         <motion.div
           class="hero-highlights"
           :initial="{ opacity: 0, y: 24 }"
           :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.6, delay: 0.65 }"
+          :transition="{ duration: 0.6, delay: 0.7 }"
         >
-          <div class="hl">
-            <span class="hl-top display">16</span>
-            <span class="hl-label">Teknologi<br />dikuasai</span>
-          </div>
-          <div class="hl">
-            <svg class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+          <div v-for="h in highlights" :key="h.label" class="hl">
+            <span v-if="h.top" class="hl-top display">{{ h.top }}</span>
+            <svg v-else-if="h.icon === 'globe'" class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
               <circle cx="20" cy="20" r="13" />
               <ellipse cx="20" cy="20" rx="6" ry="13" />
               <line x1="7" y1="20" x2="33" y2="20" />
             </svg>
-            <span class="hl-label">Laravel &amp;<br />Vue.js</span>
-          </div>
-          <div class="hl">
-            <svg class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
+            <svg v-else class="hl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
               <line x1="20" y1="6" x2="20" y2="34" />
               <line x1="6" y1="20" x2="34" y2="20" />
               <line x1="10" y1="10" x2="30" y2="30" />
               <line x1="30" y1="10" x2="10" y2="30" />
               <circle cx="20" cy="20" r="5" />
             </svg>
-            <span class="hl-label">Full-Stack<br />Developer</span>
+            <span class="hl-label" v-html="h.label" />
           </div>
         </motion.div>
       </div>
-
-      <!-- marquee -->
-      <motion.p
-        class="marquee-title"
-        :initial="{ opacity: 0 }"
-        :animate="{ opacity: 1 }"
-        :transition="{ duration: 0.6, delay: 0.85 }"
-      >
-        ❋ Tech stack yang saya kuasai:
-      </motion.p>
-      <motion.div
-        class="marquee"
-        :initial="{ opacity: 0 }"
-        :animate="{ opacity: 1 }"
-        :transition="{ duration: 0.8, delay: 0.9 }"
-      >
-        <div class="marquee-track">
-          <template v-for="n in 3" :key="n">
-            <span v-for="item in marqueeItems" :key="item + n" class="marquee-item display">
-              {{ item }} <span class="marquee-sep">·</span>
-            </span>
-          </template>
-        </div>
-      </motion.div>
     </section>
 
     <!-- ===== /TENTANG ===== -->
@@ -192,8 +160,8 @@ const kontakItems = [
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.65 }"
         >
-          Saya membangun produk digital yang modern, responsif, dan benar-benar
-          menjawab kebutuhan.
+          Setiap proyek adalah kesempatan untuk meningkatkan kemampuan
+          dan menciptakan solusi digital yang bermanfaat.
         </motion.h2>
 
         <motion.p
@@ -203,67 +171,20 @@ const kontakItems = [
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.6, delay: 0.12 }"
         >
-          Saya tertarik pada teknologi Laravel, Vue.js, dan pengembangan solusi
-          digital yang mampu menjawab kebutuhan nyata. Dengan semangat belajar dan
-          eksplorasi teknologi, saya terus mengembangkan kemampuan untuk menciptakan
-          produk digital yang efektif, berkualitas, dan memberikan pengalaman
-          pengguna yang baik.
+          Saya adalah seorang Web Developer yang berfokus pada pengembangan aplikasi
+          web modern, mulai dari membangun antarmuka yang interaktif hingga mengembangkan
+          sistem backend dan mengelola database. Saya juga memiliki ketertarikan pada
+          pengelolaan database relasional maupun non-relasional. Saya senang mempelajari
+          teknologi baru, memecahkan masalah, dan mengeksplorasi pendekatan yang lebih
+          efektif dalam pengembangan perangkat lunak.
         </motion.p>
-
-        <!-- domain chips seperti Web3 / AI / AR-VR -->
-        <div class="domains">
-          <motion.span
-            v-for="(d, i) in domains"
-            :key="d"
-            class="domain-chip display"
-            :initial="{ opacity: 0, scale: 0.9 }"
-            :whileInView="{ opacity: 1, scale: 1 }"
-            :inViewOptions="{ once: true }"
-            :transition="{ duration: 0.4, delay: i * 0.07 }"
-          >
-            {{ d }}
-          </motion.span>
-        </div>
-
-        <!-- daftar A-D seperti blunar -->
-        <div class="fokus-list">
-          <motion.div
-            v-for="(item, i) in fokus"
-            :key="item.huruf"
-            class="fokus-row"
-            :initial="{ opacity: 0, y: 16 }"
-            :whileInView="{ opacity: 1, y: 0 }"
-            :inViewOptions="{ once: true, amount: 0.5 }"
-            :transition="{ duration: 0.45, delay: i * 0.08 }"
-          >
-            <span class="fokus-huruf display">{{ item.huruf }}</span>
-            <span class="fokus-teks display">{{ item.teks }}</span>
-          </motion.div>
-        </div>
-
-        <!-- weapons of choice -->
-        <motion.div
-          class="weapons"
-          :initial="{ opacity: 0, y: 18 }"
-          :whileInView="{ opacity: 1, y: 0 }"
-          :inViewOptions="{ once: true, amount: 0.3 }"
-          :transition="{ duration: 0.6 }"
-        >
-          <p class="weapons-title">Tech stack pilihan:</p>
-          <div class="weapons-grid">
-            <div v-for="w in weapons" :key="w.label" class="weapon">
-              <span class="weapon-label">{{ w.label }}</span>
-              <span class="weapon-value display">{{ w.value }}</span>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
 
     <hr class="divider" />
 
-    <!-- ===== /KEAHLIAN ===== -->
-    <section id="keahlian" class="section">
+    <!-- ===== /TECH STACK ===== -->
+    <section id="tech" class="section">
       <div class="container">
         <motion.span
           class="route-label"
@@ -272,7 +193,7 @@ const kontakItems = [
           :inViewOptions="{ once: true, amount: 0.6 }"
           :transition="{ duration: 0.5 }"
         >
-          /keahlian
+          /tech-stack
         </motion.span>
 
         <motion.h2
@@ -282,66 +203,34 @@ const kontakItems = [
           :inViewOptions="{ once: true, amount: 0.4 }"
           :transition="{ duration: 0.65 }"
         >
-          Tech stack yang saya gunakan setiap hari.
+          Teknologi yang saya gunakan.
         </motion.h2>
 
-        <div class="skill-grid">
+        <div class="tech-groups">
           <motion.div
-            v-for="(item, i) in gridTop"
-            :key="'s' + item"
-            class="skill-cell"
-            :initial="{ opacity: 0, scale: 0.94 }"
-            :whileInView="{ opacity: 1, scale: 1 }"
-            :inViewOptions="{ once: true, amount: 0.2 }"
-            :transition="{ duration: 0.38, delay: Math.min(i * 0.035, 0.5) }"
+            v-for="(group, gi) in techStack"
+            :key="group.group"
+            class="tech-group"
+            :initial="{ opacity: 0, y: 24 }"
+            :whileInView="{ opacity: 1, y: 0 }"
+            :inViewOptions="{ once: true, amount: 0.3 }"
+            :transition="{ duration: 0.55, delay: gi * 0.08 }"
           >
-            <span class="skill-number">{{ String(i + 1).padStart(2, '0') }}</span>
-            <span class="skill-name display">{{ item }}</span>
+            <div class="tech-group-head">
+              <span class="tech-group-num display">{{ String(gi + 1).padStart(2, '0') }}</span>
+              <span class="tech-group-title display">{{ group.group }}</span>
+            </div>
+            <div class="tech-items">
+              <span v-for="item in group.items" :key="item" class="tech-item display">
+                {{ item }}
+              </span>
+            </div>
           </motion.div>
         </div>
       </div>
     </section>
 
     <hr class="divider" />
-
-    <!-- ===== /ARAH: kata raksasa abu muda seperti /new_project blunar ===== -->
-    <section id="arah" class="section">
-      <div class="container">
-        <motion.span
-          class="route-label"
-          :initial="{ opacity: 0, y: 12 }"
-          :whileInView="{ opacity: 1, y: 0 }"
-          :inViewOptions="{ once: true, amount: 0.6 }"
-          :transition="{ duration: 0.5 }"
-        >
-          /arah
-        </motion.span>
-
-        <motion.p
-          class="section-text"
-          :initial="{ opacity: 0 }"
-          :whileInView="{ opacity: 1 }"
-          :inViewOptions="{ once: true }"
-          :transition="{ duration: 0.6 }"
-        >
-          Arah yang sedang saya jalani — setiap kata adalah tujuan, bukan sekadar hiasan:
-        </motion.p>
-
-        <div class="kata-besar">
-          <motion.h3
-            v-for="(kata, i) in kataBesar"
-            :key="kata"
-            class="kata display"
-            :initial="{ opacity: 0, y: 60 }"
-            :whileInView="{ opacity: 1, y: 0 }"
-            :inViewOptions="{ once: true, amount: 0.3 }"
-            :transition="{ duration: 0.7, delay: i * 0.08, ease: 'easeOut' }"
-          >
-            {{ kata }}
-          </motion.h3>
-        </div>
-      </div>
-    </section>
 
     <!-- ===== /KONTAK ===== -->
     <section id="kontak" class="section">
@@ -391,9 +280,37 @@ const kontakItems = [
           >
             <span class="kontak-label">{{ item.label }}</span>
             <span class="kontak-value display">{{ item.value }}</span>
-            <span class="skill-arrow">→</span>
+            <span class="kontak-arrow">→</span>
           </motion.a>
         </div>
+
+        <!-- sosial media -->
+        <motion.div
+          class="sosmed"
+          :initial="{ opacity: 0, y: 18 }"
+          :whileInView="{ opacity: 1, y: 0 }"
+          :inViewOptions="{ once: true, amount: 0.4 }"
+          :transition="{ duration: 0.6, delay: 0.2 }"
+        >
+          <p class="sosmed-title">Temukan saya di:</p>
+          <div class="sosmed-row">
+            <motion.a
+              v-for="(s, i) in sosmed"
+              :key="s.label"
+              :href="s.href"
+              class="sosmed-pill"
+              :initial="{ opacity: 0, scale: 0.92 }"
+              :whileInView="{ opacity: 1, scale: 1 }"
+              :inViewOptions="{ once: true }"
+              :transition="{ duration: 0.4, delay: 0.25 + i * 0.08 }"
+              :whileHover="{ y: -3 }"
+            >
+              <span class="sosmed-label">{{ s.label }}</span>
+              <span class="sosmed-handle">{{ s.handle }}</span>
+              <span class="sosmed-arrow">↗</span>
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
     </section>
 
@@ -402,8 +319,9 @@ const kontakItems = [
       <div class="container footer-inner">
         <span>© {{ new Date().getFullYear() }} Said Abdillah</span>
         <span class="footer-links">
-          <a href="mailto:msaidabdillah18@gmail.com">Email</a>
+          <a href="https://www.instagram.com/sxidlent/">Instagram</a>
           <a href="https://wa.me/6285752646247">WhatsApp</a>
+          <a href="mailto:msaidabdillah18@gmail.com">Email</a>
         </span>
       </div>
     </footer>
@@ -451,6 +369,7 @@ const kontakItems = [
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 22px;
 }
 
@@ -466,120 +385,67 @@ const kontakItems = [
   color: var(--ink);
 }
 
-/* ===== TOP GRID (di paling atas, seperti blunar) ===== */
-.topgrid {
-  padding: 48px 0 36px;
-  border-bottom: 1px solid var(--line);
-}
-
-.topgrid-inner {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 36px;
-  align-items: start;
-}
-
-.topgrid-count {
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 300;
-  line-height: 1;
-}
-
-.topgrid-cells {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.topgrid-cell {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--line);
-  border-right: 1px solid var(--line);
-  transition: background 0.2s ease;
-}
-
-.topgrid-cell:nth-child(4n) {
-  border-right: none;
-}
-
-.topgrid-cell:hover {
-  background: var(--soft);
-}
-
-.topgrid-num {
-  font-size: 10px;
-  color: var(--gray);
-  font-weight: 500;
-}
-
-.topgrid-name {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+.nav-badge {
+  font-size: 11px;
+  padding: 6px 14px;
 }
 
 /* ===== HERO ===== */
 .hero {
-  padding: 48px 0 0;
   position: relative;
+  min-height: calc(100vh - 60px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 40px 0;
 }
 
-/* latar grid blueprint halus seperti blunar */
-.hero::before {
-  content: '';
+/* teks raksasa layer belakang */
+.hero-bgtext {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
+  z-index: 0;
   pointer-events: none;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  overflow: hidden;
 }
 
-.hero .container {
+.bg-word {
+  position: absolute;
+  left: -2%;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(6rem, 22vw, 20rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: rgb(243, 243, 243);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.hero-inner {
   position: relative;
   z-index: 1;
+  width: min(1100px, 92%);
+  margin: 0 auto;
 }
 
-/* baris atas: nama+tagline kiri, badge kanan */
-.hero-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.hero-name {
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 650;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.hero-tagline {
-  color: var(--gray);
-  font-size: clamp(0.85rem, 2vw, 1rem);
-  margin-top: 4px;
-}
-
-/* bio */
+/* bio kiri atas */
 .hero-bio {
+  max-width: 420px;
+  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+  line-height: 1.55;
   color: var(--ink);
-  max-width: 560px;
-  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
-  line-height: 1.5;
-  margin-top: 28px;
 }
 
-/* foto dalam OVAL KAPSUL gradien pastel — focal point seperti blunar */
+.bio-mark {
+  color: #f59e0b;
+  margin-right: 6px;
+}
+
+/* foto oval kapsul */
 .hero-photo-oval {
-  width: min(440px, 84vw);
-  margin: 44px auto 0;
+  width: min(400px, 78vw);
+  margin: 36px auto 0;
   aspect-ratio: 3 / 4;
   border-radius: 999px;
   background: linear-gradient(160deg, #fbd3e6 0%, #fde8dd 55%, #fdf6ee 100%);
@@ -587,24 +453,24 @@ const kontakItems = [
   align-items: flex-end;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(251, 190, 216, 0.35);
+  box-shadow: 0 24px 70px rgba(251, 190, 216, 0.4);
 }
 
 .hero-photo {
-  width: 86%;
+  width: 88%;
   height: auto;
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.12));
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.13));
 }
 
-/* ===== 3 HIGHLIGHT ===== */
+/* highlights kanan bawah */
 .hero-highlights {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 48px;
-  padding-bottom: 48px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 44px;
+  margin-top: 36px;
+  flex-wrap: wrap;
 }
 
 .hl-top {
@@ -616,52 +482,16 @@ const kontakItems = [
 }
 
 .hl-icon {
-  width: clamp(32px, 6vw, 42px);
+  width: clamp(32px, 5vw, 40px);
   height: auto;
   color: var(--ink);
 }
 
 .hl-label {
   display: inline-block;
-  margin-top: 10px;
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  margin-top: 8px;
+  font-size: clamp(0.78rem, 1.7vw, 0.86rem);
   line-height: 1.35;
-}
-
-/* marquee */
-.marquee-title {
-  color: var(--gray);
-  font-size: 0.9rem;
-  padding: 0 3%;
-  margin-bottom: 4px;
-}
-
-.marquee {
-  overflow: hidden;
-  background: var(--soft);
-  padding: 14px 0;
-  white-space: nowrap;
-}
-
-.marquee-track {
-  display: inline-flex;
-  animation: marquee 20s linear infinite;
-}
-
-.marquee-item {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-.marquee-sep {
-  color: var(--gray);
-  padding: 0 12px;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-33.333%); }
 }
 
 /* ===== SECTIONS ===== */
@@ -681,175 +511,67 @@ const kontakItems = [
 
 .section-text {
   color: var(--gray);
-  max-width: 600px;
+  max-width: 640px;
   font-size: 0.98rem;
 }
 
-/* ===== DOMAIN CHIPS ===== */
-.domains {
+/* ===== TECH STACK ===== */
+.tech-groups {
+  margin-top: 44px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-}
-
-.domain-chip {
-  padding: 8px 18px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.domain-chip:hover {
-  border-color: var(--ink);
-  background: var(--soft);
-}
-
-/* ===== DAFTAR A-D ===== */
-.fokus-list {
-  margin-top: 52px;
+  flex-direction: column;
   border-top: 1px solid var(--line);
 }
 
-.fokus-row {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  padding: 20px 6px;
+.tech-group {
+  padding: 30px 6px;
   border-bottom: 1px solid var(--line);
   transition: background 0.2s ease;
 }
 
-.fokus-row:hover {
+.tech-group:hover {
   background: var(--soft);
 }
 
-.fokus-huruf {
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--ink);
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 0.95rem;
-  flex-shrink: 0;
-}
-
-.fokus-teks {
-  font-size: clamp(1.15rem, 2.8vw, 1.75rem);
-  font-weight: 500;
-  letter-spacing: -0.025em;
-}
-
-/* ===== WEAPONS OF CHOICE ===== */
-.weapons {
-  margin-top: 56px;
-}
-
-.weapons-title {
-  color: var(--gray);
-  font-size: 0.9rem;
+.tech-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
   margin-bottom: 18px;
 }
 
-.weapons-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 14px;
+.tech-group-num {
+  color: var(--gray);
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
-.weapon {
+.tech-group-title {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.tech-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-left: 42px;
+}
+
+.tech-item {
+  padding: 9px 20px;
   border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: border-color 0.2s ease;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  background: #fff;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.weapon:hover {
+.tech-item:hover {
   border-color: var(--ink);
-}
-
-.weapon-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--gray);
-}
-
-.weapon-value {
-  font-size: 0.98rem;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-}
-
-/* ===== GRID KEAHLIAN ===== */
-.skill-grid {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
-}
-
-.skill-cell {
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 22px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-height: 120px;
-  transition: background 0.2s ease;
-}
-
-.skill-cell:hover {
   background: var(--soft);
-}
-
-.skill-number {
-  color: var(--gray);
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.skill-name {
-  font-size: clamp(0.98rem, 1.7vw, 1.2rem);
-  font-weight: 500;
-  margin-top: auto;
-  letter-spacing: -0.02em;
-}
-
-.skill-arrow {
-  margin-left: auto;
-  color: var(--gray);
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-/* ===== KATA BESAR (mirip /new_project blunar) ===== */
-.kata-besar {
-  margin-top: 30px;
-}
-
-.kata {
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(3.4rem, 13vw, 11rem);
-  font-weight: 500;
-  letter-spacing: -0.05em;
-  line-height: 1.02;
-  color: rgb(243, 243, 243);
-  transition: color 0.3s ease;
-  cursor: default;
-}
-
-.kata:hover {
-  color: var(--ink);
 }
 
 /* ===== KONTAK ===== */
@@ -887,8 +609,73 @@ const kontakItems = [
   letter-spacing: -0.02em;
 }
 
-.kontak-row:hover .skill-arrow {
+.kontak-arrow {
+  margin-left: auto;
+  color: var(--gray);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.kontak-row:hover .kontak-arrow {
   transform: translateX(4px);
+  color: var(--ink);
+}
+
+/* ===== SOSMED ===== */
+.sosmed {
+  margin-top: 52px;
+}
+
+.sosmed-title {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.sosmed-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sosmed-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sosmed-pill:hover {
+  border-color: var(--ink);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.sosmed-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gray);
+}
+
+.sosmed-handle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.sosmed-arrow {
+  color: var(--gray);
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.sosmed-pill:hover .sosmed-arrow {
+  transform: translate(2px, -2px);
   color: var(--ink);
 }
 
@@ -925,30 +712,22 @@ const kontakItems = [
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 820px) {
-  .topgrid-inner {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .topgrid-cells {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .topgrid-cell:nth-child(2n) {
-    border-right: none;
-  }
-
   .hero {
-    padding-top: 32px;
+    min-height: auto;
+    padding: 32px 0 48px;
+  }
+
+  .hero-highlights {
+    justify-content: flex-start;
+    gap: 32px;
+  }
+
+  .tech-items {
+    padding-left: 0;
   }
 
   .section {
     padding: 64px 0;
-  }
-
-  .fokus-huruf {
-    width: 36px;
-    height: 36px;
   }
 }
 
@@ -962,11 +741,11 @@ const kontakItems = [
   }
 
   .nav-links a {
-    font-size: 11px;
+    display: none;
   }
 
-  .hero-avatar {
-    width: 64px;
+  .nav-badge {
+    display: inline-flex;
   }
 }
 </style>
