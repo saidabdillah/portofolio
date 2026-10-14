@@ -71,27 +71,6 @@ const kontakItems = [
       </div>
     </motion.header>
 
-    <!-- ===== TOP: grid bernomor 01-16 DI PALING ATAS seperti blunar ===== -->
-    <section class="topgrid">
-      <div class="container topgrid-inner">
-        <div class="topgrid-count display">16</div>
-        <div class="topgrid-cells">
-          <motion.div
-            v-for="(item, i) in gridTop"
-            :key="item"
-            class="topgrid-cell"
-            :initial="{ opacity: 0, y: 10 }"
-            :whileInView="{ opacity: 1, y: 0 }"
-            :inViewOptions="{ once: true }"
-            :transition="{ duration: 0.35, delay: Math.min(i * 0.03, 0.6) }"
-          >
-            <span class="topgrid-num">{{ String(i + 1).padStart(2, '0') }}</span>
-            <span class="topgrid-name">{{ item }}</span>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== HERO: nama+tagline kiri, badge kanan, bio, foto oval kapsul, 3 highlight ===== -->
     <section class="hero">
       <div class="container">
@@ -599,7 +578,7 @@ const kontakItems = [
 
 /* foto dalam OVAL KAPSUL gradien pastel — focal point seperti blunar */
 .hero-photo-oval {
-  width: min(320px, 68vw);
+  width: min(440px, 84vw);
   margin: 44px auto 0;
   aspect-ratio: 3 / 4;
   border-radius: 999px;
