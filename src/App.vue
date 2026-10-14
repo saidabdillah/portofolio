@@ -578,7 +578,7 @@ function moveBtnTo(clientX) {
 /* foto oval kapsul di kiri */
 .hero-photo-oval {
   width: min(340px, 34vw);
-  max-height: 58vh;
+  max-height: 50vh;
   aspect-ratio: 3 / 4;
   border-radius: 999px;
   background: linear-gradient(165deg, #9fc2ef 0%, #bcd6f2 55%, #e3effc 100%);
@@ -603,7 +603,7 @@ function moveBtnTo(clientX) {
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  margin-top: 44px;
+  margin-top: 30px;
   position: relative;
   z-index: 1;
 }
